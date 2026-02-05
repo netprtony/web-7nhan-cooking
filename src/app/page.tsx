@@ -7,6 +7,8 @@ import { AnimatedTabBar, TabItem } from "@/components/ui/animated-tab-bar";
 import AnimatedFooter from "@/components/ui/animated-footer";
 import { UtensilsCrossed, Calendar, Phone, BookOpen } from "lucide-react";
 import { GlassButton } from "@/components/ui/glass-button";
+import { FeatureCards } from "@/components/examples/feature-card";
+import { PricingCards } from "@/components/examples/pricing-card";
 import { client, urlFor } from "@/lib/sanity";
 
 // ============================================
@@ -179,6 +181,36 @@ export default function Home() {
 
       {/* Featured Categories: Interactive Image Accordion */}
       <LandingAccordionItem />
+
+      {/* Features Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-white to-orange-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Tại Sao Chọn Chúng Tôi?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Với hơn 10 năm kinh nghiệm, chúng tôi tự hào mang đến dịch vụ nấu tiệc tại nhà chất lượng cao
+            </p>
+          </div>
+          <FeatureCards />
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 px-4 bg-gradient-to-b from-orange-50 to-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Bảng Giá Dịch Vụ
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Đa dạng gói dịch vụ phù hợp với mọi nhu cầu và ngân sách
+            </p>
+          </div>
+          <PricingCards />
+        </div>
+      </section>
 
       {/* Animated Footer */}
       <AnimatedFooter />

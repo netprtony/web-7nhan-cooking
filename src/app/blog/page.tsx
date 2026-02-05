@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, User, Clock, ChevronRight } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
+import { LiquidCard, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/liquid-glass-card';
 
 interface BlogPost {
   _id: string;
@@ -187,12 +188,12 @@ export default function BlogPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (
-              <article
+              <LiquidCard
                 key={post._id}
-                className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="liquid-card overflow-hidden group"
               >
                 {/* Image */}
-                <div className="relative h-56 w-full overflow-hidden">
+                <div className="relative h-56 w-full overflow-hidden rounded-t-xl -mt-6 -mx-0">
                   {post.mainImage ? (
                     <Image
                       src={urlFor(post.mainImage).width(600).height(400).url()}
@@ -211,8 +212,8 @@ export default function BlogPage() {
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                <CardHeader>
+                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       {formatDate(post.publishedAt)}
@@ -222,21 +223,24 @@ export default function BlogPage() {
                       {post.author}
                     </span>
                   </div>
-
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-500 transition-colors">
+                  <CardTitle className="text-xl group-hover:text-orange-500 transition-colors">
                     {post.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 text-sm line-clamp-3 mb-4">
-                    {post.excerpt}
-                  </p>
+                  </CardTitle>
+                </CardHeader>
 
+                <CardContent>
+                  <CardDescription className="line-clamp-3">
+                    {post.excerpt}
+                  </CardDescription>
+                </CardContent>
+
+                <CardFooter>
                   <GlassButton size="sm" contentClassName="flex items-center gap-1">
                     Xem chi tiết
                     <ChevronRight className="w-4 h-4" />
                   </GlassButton>
-                </div>
-              </article>
+                </CardFooter>
+              </LiquidCard>
             ))}
           </div>
         )}

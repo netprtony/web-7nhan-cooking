@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Search, Filter, Plus, Minus, ShoppingCart, X, ArrowLeft, Trash2 } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
+import { LiquidCard, CardContent } from '@/components/ui/liquid-glass-card';
 import { Input } from '@/components/ui/input';
 
 interface MenuItem {
@@ -203,12 +204,12 @@ export default function MenuPage() {
             {filteredItems.map((item) => {
               const cartItem = cart.find((i) => i._id === item._id);
               return (
-                <div
+                <LiquidCard
                   key={item._id}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow group"
+                  className="liquid-card overflow-hidden group"
                 >
                   {/* Image */}
-                  <div className="relative h-48 w-full overflow-hidden">
+                  <div className="relative h-48 w-full overflow-hidden rounded-t-xl -mt-6">
                     {item.image ? (
                       <Image
                         src={urlFor(item.image).width(400).height(300).url()}
@@ -227,7 +228,7 @@ export default function MenuPage() {
                   </div>
 
                   {/* Content */}
-                  <div className="p-4">
+                  <CardContent>
                     <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.title}</h3>
                     <p className="text-sm text-gray-500 mb-3 line-clamp-2">{item.description}</p>
                     
@@ -263,8 +264,8 @@ export default function MenuPage() {
                         </GlassButton>
                       )}
                     </div>
-                  </div>
-                </div>
+                  </CardContent>
+                </LiquidCard>
               );
             })}
           </div>
