@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { client, urlFor } from '@/lib/sanity';
 import Image from 'next/image';
+import { GlassButton } from '@/components/ui/glass-button';
 
 interface MenuItem {
   _id: string;
@@ -43,17 +44,14 @@ export function MenuSection() {
       
       <div className="flex justify-center gap-4 mb-12 flex-wrap">
         {categories.map((cat) => (
-          <button
+          <GlassButton
             key={cat.value}
             onClick={() => setSelectedCategory(cat.value)}
-            className={`px-6 py-2 rounded-full transition-all ${
-              selectedCategory === cat.value
-                ? 'bg-gray-900 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            size="default"
+            className={selectedCategory === cat.value ? 'ring-2 ring-orange-500' : ''}
           >
             {cat.label}
-          </button>
+          </GlassButton>
         ))}
       </div>
 

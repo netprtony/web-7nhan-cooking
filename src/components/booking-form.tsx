@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
-import { Button } from '@/components/ui/button';
+import { GlassButton } from '@/components/ui/glass-button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -47,11 +47,19 @@ export function BookingForm() {
   };
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-gray-50">
+    <section className="relative py-16 overflow-hidden">
+      {/* Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center scale-105"
+        style={{ backgroundImage: "url('/assets/bg4.jpg')" }}
+      />
+      <div className="absolute inset-0 backdrop-blur-sm bg-orange-50/90" />
+      
+      <div className="relative container mx-auto px-4">
       <div className="max-w-2xl mx-auto">
-        <h2 className="text-4xl font-bold text-center mb-8">Đặt Tiệc Ngay</h2>
+        <h2 className="text-4xl font-bold text-center mb-8 text-gray-900">Đặt Tiệc Ngay</h2>
         
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg">
+        <form onSubmit={handleSubmit} className="space-y-6 bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl border border-orange-100">
           <div>
             <label className="block text-sm font-medium mb-2">Họ và Tên</label>
             <Input
@@ -116,21 +124,23 @@ export function BookingForm() {
             />
           </div>
 
-          <Button
+          <GlassButton
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gray-900 hover:bg-gray-800"
+            size="lg"
+            className="w-full"
           >
-            {isSubmitting ? 'Đang Gửi...' : 'Gửi Yêu Cầu'}
-          </Button>
+            {isSubmitting ? 'Đang Gửi...' : 'Gửi Yêu Cầu Đặt Tiệc'}
+          </GlassButton>
 
           {status === 'success' && (
-            <p className="text-green-600 text-center">Đã gửi thành công! Chúng tôi sẽ liên hệ sớm.</p>
+            <p className="text-green-600 text-center font-medium">✓ Đã gửi thành công! Chúng tôi sẽ liên hệ sớm.</p>
           )}
           {status === 'error' && (
             <p className="text-red-600 text-center">Có lỗi xảy ra. Vui lòng thử lại.</p>
           )}
         </form>
+      </div>
       </div>
     </section>
   );
