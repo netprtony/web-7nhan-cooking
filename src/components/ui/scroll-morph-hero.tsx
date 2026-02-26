@@ -132,6 +132,13 @@ export default function ScrollMorphHero({
         if (!container) return;
 
         const handleWheel = (e: WheelEvent) => {
+            const isScrollingDown = e.deltaY > 0;
+            const isScrollingUp = e.deltaY < 0;
+
+            if ((isScrollingDown && scrollRef.current >= MAX_SCROLL) || (isScrollingUp && scrollRef.current <= 0)) {
+                return; // Let the browser scroll natively
+            }
+
             e.preventDefault();
             const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
             scrollRef.current = newScroll;
@@ -144,7 +151,19 @@ export default function ScrollMorphHero({
         };
         const handleTouchMove = (e: TouchEvent) => {
             const touchY = e.touches[0].clientY;
-            const deltaY = touchStartY - touchY;
+            const deltaY = touchStartY - touchY; // Positive when scrolling down
+            
+            const isScrollingDown = deltaY > 0;
+            const isScrollingUp = deltaY < 0;
+
+            if ((isScrollingDown && scrollRef.current >= MAX_SCROLL) || (isScrollingUp && scrollRef.current <= 0)) {
+                touchStartY = touchY; // Update for natural scroll continuity
+                return;
+            }
+
+            if (e.cancelable) {
+                e.preventDefault();
+            }
             touchStartY = touchY;
 
             const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);

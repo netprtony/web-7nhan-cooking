@@ -31,11 +31,10 @@ export const AnimatedTabBar: React.FC<AnimatedTabBarProps> = ({
     const menuBorder = menuBorderRef.current;
 
     if (activeItem && menu && menuBorder) {
-      const offsetActiveItem = activeItem.getBoundingClientRect();
-      const left = Math.floor(
-        offsetActiveItem.left -
-          menu.offsetLeft -
-          (menuBorder.offsetWidth - offsetActiveItem.width) / 2
+      const itemRect = activeItem.getBoundingClientRect();
+      const menuRect = menu.getBoundingClientRect();
+      const left = Math.round(
+        itemRect.left - menuRect.left + (itemRect.width - menuBorder.offsetWidth) / 2
       );
       menuBorder.style.transform = `translate3d(${left}px, 0, 0)`;
     }
@@ -75,7 +74,7 @@ export const AnimatedTabBar: React.FC<AnimatedTabBarProps> = ({
     >
       <div 
         ref={menuBorderRef}
-        className="menu__border absolute bottom-0 h-1 w-16 rounded-full transition-transform duration-500 ease-out"
+        className="menu__border absolute left-0 bottom-0 h-1 w-16 rounded-full transition-transform duration-500 ease-out"
         style={{ backgroundColor: items[activeIndex]?.color }}
       />
       
