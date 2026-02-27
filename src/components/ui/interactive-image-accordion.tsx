@@ -41,11 +41,14 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: AccordionItemProps) => 
   return (
     <div
       className={`
-        relative h-[600px] rounded-2xl overflow-hidden cursor-pointer
+        relative rounded-2xl overflow-hidden cursor-pointer
         transition-all duration-700 ease-in-out
-        ${isActive ? 'w-[600px]' : 'w-[80px]'}
+        h-[280px] sm:h-[400px] md:h-[600px]
+        ${isActive ? 'flex-[4] sm:flex-[3] md:w-[600px]' : 'flex-[1] sm:flex-[0.5] md:w-[80px]'}
+        min-w-0
       `}
       onMouseEnter={onMouseEnter}
+      onClick={onMouseEnter}
     >
       <img
         src={item.imageUrl}
@@ -55,12 +58,12 @@ const AccordionItem = ({ item, isActive, onMouseEnter }: AccordionItemProps) => 
       <div className="absolute inset-0 bg-black/40"></div>
       <span
         className={`
-          absolute text-white text-lg font-semibold whitespace-nowrap
+          absolute text-white text-sm sm:text-lg font-semibold whitespace-nowrap
           transition-all duration-300 ease-in-out
           ${
             isActive
-              ? 'bottom-6 left-1/2 -translate-x-1/2 rotate-0'
-              : 'bottom-24 left-1/2 -translate-x-1/2 rotate-90'
+              ? 'bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 rotate-0'
+              : 'bottom-16 sm:bottom-24 left-1/2 -translate-x-1/2 rotate-90'
           }
         `}
       >
@@ -83,16 +86,16 @@ export function LandingAccordionItem() {
       <div className="absolute inset-0 backdrop-blur-sm bg-white/85" />
       
       <div className="relative container mx-auto px-4 py-12 md:py-24">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tighter">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tighter">
             Dịch vụ nấu ăn Bảy Nhân
           </h1>
-          <div className="mt-6 space-y-2 text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
+          <div className="mt-4 sm:mt-6 space-y-2 text-base sm:text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
             <p className="font-semibold text-gray-900 border-b border-gray-200 pb-2">
               Nhận tất cả các loại tiệc: Tiệc cưới - Liên hoan - Sinh nhật - Hội nghị...
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-gray-700">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-sm sm:text-base text-gray-700">
               <li className="flex items-center gap-2">
                 <span className="text-orange-500">✓</span> Chất lượng đảm bảo
               </li>
@@ -109,18 +112,18 @@ export function LandingAccordionItem() {
                 <span className="text-orange-500">✓</span> Thực đơn đa dạng, phong phú
               </li>
             </ul>
-            <p className="mt-6 font-bold text-orange-600 text-xl">
+            <p className="mt-4 sm:mt-6 font-bold text-orange-600 text-lg sm:text-xl">
               ☎️ Hotline: 0909.947.086
             </p>
             <p className="italic text-gray-500">Hân hạnh phục vụ quý khách!</p>
           </div>
-          <div className="mt-8">
+          <div className="mt-6 sm:mt-8">
             <GlassButton size="lg">
               Đặt Lịch Ngay
             </GlassButton>
           </div>
         </div>
-        <div className="w-full md:w-1/2 flex flex-row items-center justify-center gap-4 overflow-x-auto p-4">
+        <div className="w-full md:w-1/2 flex flex-row items-center justify-center gap-1.5 sm:gap-2 md:gap-4 overflow-hidden px-2 sm:p-4">
           {accordionItems.map((item, index) => (
             <AccordionItem
               key={item.id}

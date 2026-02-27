@@ -69,12 +69,12 @@ export const AnimatedTabBar: React.FC<AnimatedTabBarProps> = ({
   return (
     <div 
       ref={menuRef}
-      className="menu fixed top-8 left-1/2 -translate-x-1/2 z-50 flex gap-2 bg-white/90 backdrop-blur-md rounded-full px-4 py-3 shadow-2xl border border-gray-200"
+      className="menu fixed top-4 sm:top-8 left-1/2 -translate-x-1/2 z-50 flex gap-0.5 sm:gap-2 bg-white/90 backdrop-blur-md rounded-full px-2 sm:px-4 py-2 sm:py-3 shadow-2xl border border-gray-200 max-w-[calc(100vw-2rem)]"
       style={{ "--timeOut": "0.5s" } as React.CSSProperties}
     >
       <div 
         ref={menuBorderRef}
-        className="menu__border absolute left-0 bottom-0 h-1 w-16 rounded-full transition-transform duration-500 ease-out"
+        className="menu__border absolute left-0 bottom-0 h-1 w-12 sm:w-16 rounded-full transition-transform duration-500 ease-out"
         style={{ backgroundColor: items[activeIndex]?.color }}
       />
       
@@ -82,16 +82,16 @@ export const AnimatedTabBar: React.FC<AnimatedTabBarProps> = ({
         <button
           key={index}
           ref={(el) => { itemRefs.current[index] = el; }}
-          className={`menu__item relative px-6 py-2 rounded-full transition-all duration-300 ${
-            activeIndex === index ? "active scale-110" : "scale-100 opacity-60"
+          className={`menu__item relative px-3 sm:px-6 py-1.5 sm:py-2 rounded-full transition-all duration-300 ${
+            activeIndex === index ? "active scale-105 sm:scale-110" : "scale-100 opacity-60"
           }`}
           style={{ "--bgColorItem": item.color } as React.CSSProperties}
           onClick={() => handleItemClick(index)}
           aria-label={item.label}
         >
-          <span className="flex items-center gap-2 text-gray-800 font-medium">
-            {item.icon}
-            <span className="hidden md:inline">{item.label}</span>
+          <span className="flex items-center gap-1 sm:gap-2 text-gray-800 font-medium">
+            <span className="w-4 h-4 sm:w-5 sm:h-5 [&>svg]:w-full [&>svg]:h-full">{item.icon}</span>
+            <span className="hidden md:inline text-sm">{item.label}</span>
           </span>
         </button>
       ))}

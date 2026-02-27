@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { client, urlFor } from '@/lib/sanity';
+import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import { GlassButton } from '@/components/ui/glass-button';
 
 interface MenuItem {
-  _id: string;
+  id: string;
   title: string;
   category: string;
   price: number;
   description: string;
-  image: any;
-  isAvailable: boolean;
+  image_url: string | null;
+  is_available: boolean;
 }
 
 export function MenuSection() {
@@ -20,9 +20,19 @@ export function MenuSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   useEffect(() => {
-    const query = `*[_type == "menuItem" && isAvailable == true] | order(category asc)`;
-    
-    client.fetch(query).then((data) => setMenuItems(data));
+    const fetchMenu = async () => {
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('id, title, category, price, description, image_url, is_available')
+        .eq('is_available', true)
+        .order('category', { ascending: true });
+      
+      if (!error && data) {
+        setMenuItems(data as MenuItem[]);
+      }
+    };
+
+    fetchMenu();
   }, []);
 
   const categories = [
@@ -39,10 +49,10 @@ export function MenuSection() {
     : menuItems.filter((item) => item.category === selectedCategory);
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <h2 className="text-4xl font-bold text-center mb-8">Thực Đơn</h2>
+    <section className="container mx-auto px-3 sm:px-4 py-8 sm:py-16">
+      <h2 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-8">Thực Đơn</h2>
       
-      <div className="flex justify-center gap-4 mb-12 flex-wrap">
+      <div className="flex justify-center gap-2 sm:gap-4 mb-8 sm:mb-12 flex-wrap">
         {categories.map((cat) => (
           <GlassButton
             key={cat.value}
@@ -55,23 +65,23 @@ export function MenuSection() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-8">
         {filteredItems.map((item) => (
-          <div key={item._id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            {item.image && (
-              <div className="relative h-64 w-full">
+          <div key={item.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
+            {item.image_url && (
+              <div className="relative h-32 sm:h-48 lg:h-64 w-full">
                 <Image
-                  src={urlFor(item.image).width(800).url()}
+                  src={item.image_url}
                   alt={item.title}
                   fill
                   className="object-cover"
                 />
               </div>
             )}
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-600 mb-4">{item.description}</p>
-              <p className="text-2xl font-bold text-gray-900">
+            <div className="p-3 sm:p-4 lg:p-6">
+              <h3 className="text-sm sm:text-lg lg:text-xl font-semibold mb-1 sm:mb-2">{item.title}</h3>
+              <p className="text-gray-600 mb-2 sm:mb-4 text-xs sm:text-sm lg:text-base line-clamp-2 hidden sm:block">{item.description}</p>
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">
                 {item.price?.toLocaleString('vi-VN')} VNĐ
               </p>
             </div>

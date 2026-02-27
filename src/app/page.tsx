@@ -9,7 +9,8 @@ import { UtensilsCrossed, Calendar, Phone, BookOpen } from "lucide-react";
 import { GlassButton } from "@/components/ui/glass-button";
 import { FeatureCards } from "@/components/examples/feature-card";
 import { PricingCards } from "@/components/examples/pricing-card";
-import { client, urlFor } from "@/lib/sanity";
+import { supabase } from "@/lib/supabase";
+import { BookingModal } from "@/components/booking-modal";
 
 // ============================================
 // IMAGE ARRAYS
@@ -64,7 +65,7 @@ const tabItems: TabItem[] = [
 // TAB CONTENT COMPONENT
 // ============================================
 
-const TabContent = ({ activeTab }: { activeTab: number }) => {
+const TabContent = ({ activeTab, onBookingClick }: { activeTab: number; onBookingClick: () => void }) => {
   const content = [
     {
       title: "Thực Đơn Đặc Biệt",
@@ -76,6 +77,7 @@ const TabContent = ({ activeTab }: { activeTab: number }) => {
       title: "Đặt Tiệc Sang Trọng",
       description: "Không gian hoàn hảo cho mọi sự kiện của bạn",
       cta: "Đặt Tiệc Ngay",
+      action: 'booking',
     },
     {
       title: "Liên Hệ Với Chúng Tôi",
@@ -93,18 +95,22 @@ const TabContent = ({ activeTab }: { activeTab: number }) => {
   const current = content[activeTab];
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 py-20">
-      <div className="max-w-4xl mx-auto text-center space-y-8">
-        <h2 className="text-5xl md:text-7xl font-bold text-gray-900 tracking-tight">
+    <section className="min-h-[60vh] sm:min-h-screen flex items-center justify-center px-4 py-12 sm:py-20">
+      <div className="max-w-4xl mx-auto text-center space-y-5 sm:space-y-8">
+        <h2 className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-900 tracking-tight">
           {current.title}
         </h2>
-        <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
+        <p className="text-base sm:text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
           {current.description}
         </p>
         <GlassButton 
           size="lg"
           onClick={() => {
-            if (current.link) window.location.href = current.link;
+            if (current.action === 'booking') {
+              onBookingClick();
+            } else if (current.link) {
+              window.location.href = current.link;
+            }
           }}
         >
           {current.cta}
@@ -122,19 +128,22 @@ export default function Home() {
   const [bgColor, setBgColor] = useState(bgColorsBody[0]);
   const [activeTab, setActiveTab] = useState(0);
   const [foodImages, setFoodImages] = useState<string[]>(FOOD_IMAGES);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch menu items from Sanity
-    const query = `*[_type == "menuItem" && isAvailable == true][0...12] {
-      image
-    }`;
-    
-    client.fetch(query).then((data) => {
-      if (data && data.length > 0) {
-        const images = data
-          .filter((item: any) => item.image)
-          .map((item: any) => urlFor(item.image).width(400).height(600).url());
-        
+    // Fetch menu item images from Supabase
+    const fetchImages = async () => {
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('image_url')
+        .eq('is_available', true)
+        .limit(12);
+
+      if (!error && data && data.length > 0) {
+        const images = (data as { image_url: string | null }[])
+          .filter((item) => item.image_url)
+          .map((item) => item.image_url as string);
+
         if (images.length > 0) {
           // Pad with fallback images if needed
           const paddedImages = [...images];
@@ -144,7 +153,9 @@ export default function Home() {
           setFoodImages(paddedImages.slice(0, 12));
         }
       }
-    }).catch(err => console.error("Sanity fetch error:", err));
+    };
+    
+    fetchImages().catch(err => console.error("Supabase fetch error:", err));
   }, []);
 
   const handleTabChange = (index: number) => {
@@ -176,20 +187,20 @@ export default function Home() {
         className="transition-colors duration-700"
         style={{ backgroundColor: bgColor + "20" }}
       >
-        <TabContent activeTab={activeTab} />
+        <TabContent activeTab={activeTab} onBookingClick={() => setIsBookingOpen(true)} />
       </div>
 
       {/* Featured Categories: Interactive Image Accordion */}
       <LandingAccordionItem />
 
       {/* Features Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-white to-orange-50">
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-white to-orange-50">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
               Tại Sao Chọn Chúng Tôi?
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Với hơn 10 năm kinh nghiệm, chúng tôi tự hào mang đến dịch vụ nấu tiệc tại nhà chất lượng cao
             </p>
           </div>
@@ -198,13 +209,13 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-orange-50 to-white">
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-orange-50 to-white">
         <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
               Bảng Giá Dịch Vụ
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl text-gray-600 max-w-2xl mx-auto">
               Đa dạng gói dịch vụ phù hợp với mọi nhu cầu và ngân sách
             </p>
           </div>
@@ -214,6 +225,13 @@ export default function Home() {
 
       {/* Animated Footer */}
       <AnimatedFooter />
+
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        mode="free"
+      />
     </div>
   );
 }

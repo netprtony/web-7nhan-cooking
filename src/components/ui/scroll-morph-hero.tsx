@@ -15,10 +15,24 @@ interface FlipCardProps {
 }
 
 // --- FlipCard Component ---
-const IMG_WIDTH = 100;
-const IMG_HEIGHT = 140;
+const IMG_WIDTH_MOBILE = 70;
+const IMG_HEIGHT_MOBILE = 100;
+const IMG_WIDTH_DESKTOP = 100;
+const IMG_HEIGHT_DESKTOP = 140;
 
 function FlipCard({ src, index, total, phase, target }: FlipCardProps) {
+    const [isMobile, setIsMobile] = React.useState(false);
+    
+    React.useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+    
+    const imgW = isMobile ? IMG_WIDTH_MOBILE : IMG_WIDTH_DESKTOP;
+    const imgH = isMobile ? IMG_HEIGHT_MOBILE : IMG_HEIGHT_DESKTOP;
+    
     return (
         <motion.div
             animate={{
@@ -35,8 +49,8 @@ function FlipCard({ src, index, total, phase, target }: FlipCardProps) {
             }}
             style={{
                 position: "absolute",
-                width: IMG_WIDTH,
-                height: IMG_HEIGHT,
+                width: imgW,
+                height: imgH,
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
             }}
@@ -251,7 +265,7 @@ export default function ScrollMorphHero({
                             { opacity: 0, filter: "blur(10px)" }
                         }
                         transition={{ duration: 1 }}
-                        className="text-2xl font-medium tracking-tight text-gray-800 md:text-4xl"
+                        className="text-xl sm:text-2xl md:text-4xl font-medium tracking-tight text-gray-800 px-4"
                     >
                         {title}
                     </motion.h1>
@@ -273,10 +287,10 @@ export default function ScrollMorphHero({
                     style={{ opacity: contentOpacity, y: contentY }}
                     className="absolute top-[10%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
                 >
-                    <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
+                    <h2 className="text-xl sm:text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-2 sm:mb-4 px-2">
                         {description}
                     </h2>
-                    <p className="text-sm md:text-base text-gray-600 max-w-lg leading-relaxed">
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 max-w-lg leading-relaxed px-2">
                         Khám phá thế giới ẩm thực tuyệt vời. <br className="hidden md:block" />
                         Cuộn để xem bộ sưu tập món ăn tinh túy của chúng tôi.
                     </p>

@@ -18,12 +18,12 @@ export function FeatureCard({
 }: FeatureCardProps) {
   return (
     <LiquidCard className="text-center liquid-card">
-      <CardContent className="pt-6">
-        <div className={`mx-auto w-14 h-14 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4`}>
-          <Icon className={`h-7 w-7 ${iconColor}`} />
+      <CardContent className="pt-4 sm:pt-6">
+        <div className={`mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-3 sm:mb-4`}>
+          <Icon className={`h-5 w-5 sm:h-7 sm:w-7 ${iconColor}`} />
         </div>
-        <CardTitle className="mb-2 text-xl">{title}</CardTitle>
-        <CardDescription className="text-gray-600 dark:text-gray-400">
+        <CardTitle className="mb-1.5 sm:mb-2 text-base sm:text-xl">{title}</CardTitle>
+        <CardDescription className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
           {description}
         </CardDescription>
       </CardContent>
@@ -67,7 +67,7 @@ const restaurantFeatures = [
 
 export function FeatureCards() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
       {restaurantFeatures.map((feature, index) => (
         <FeatureCard
           key={index}

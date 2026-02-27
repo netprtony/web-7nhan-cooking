@@ -1,22 +1,23 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { client, urlFor } from '@/lib/sanity';
+import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Filter, Plus, Minus, ShoppingCart, X, ArrowLeft, Trash2 } from 'lucide-react';
+import { Search, Filter, Plus, Minus, ShoppingCart, X, ArrowLeft, Trash2, Percent } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
 import { LiquidCard, CardContent } from '@/components/ui/liquid-glass-card';
 import { Input } from '@/components/ui/input';
+import { BookingModal, BookingMenuItem } from '@/components/booking-modal';
 
 interface MenuItem {
-  _id: string;
+  id: string;
   title: string;
   category: string;
   price: number;
   description: string;
-  image: any;
-  isAvailable: boolean;
+  image_url: string | null;
+  is_available: boolean;
 }
 
 interface CartItem extends MenuItem {
@@ -40,26 +41,28 @@ export default function MenuPage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [guestCount, setGuestCount] = useState(10);
+  const [tableCount, setTableCount] = useState(1);
+  const [serviceFee, setServiceFee] = useState(10);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Fetch menu items from Sanity
+  // Fetch menu items from Supabase
   useEffect(() => {
-    const query = `*[_type == "menuItem" && isAvailable == true] | order(category asc) {
-      _id,
-      title,
-      category,
-      price,
-      description,
-      image,
-      isAvailable
-    }`;
-    
-    client.fetch(query).then((data) => {
-      setMenuItems(data);
-      setFilteredItems(data);
+    const fetchMenu = async () => {
+      const { data, error } = await supabase
+        .from('menu_items')
+        .select('id, title, category, price, description, image_url, is_available')
+        .eq('is_available', true)
+        .order('category', { ascending: true });
+      
+      if (!error && data) {
+        setMenuItems(data as MenuItem[]);
+        setFilteredItems(data as MenuItem[]);
+      }
       setLoading(false);
-    }).catch(() => {
+    };
+
+    fetchMenu().catch(() => {
       setLoading(false);
     });
   }, []);
@@ -87,10 +90,10 @@ export default function MenuPage() {
   // Cart functions
   const addToCart = (item: MenuItem) => {
     setCart((prev) => {
-      const existing = prev.find((i) => i._id === item._id);
+      const existing = prev.find((i) => i.id === item.id);
       if (existing) {
         return prev.map((i) =>
-          i._id === item._id ? { ...i, quantity: i.quantity + 1 } : i
+          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
       return [...prev, { ...item, quantity: 1 }];
@@ -98,14 +101,14 @@ export default function MenuPage() {
   };
 
   const removeFromCart = (itemId: string) => {
-    setCart((prev) => prev.filter((i) => i._id !== itemId));
+    setCart((prev) => prev.filter((i) => i.id !== itemId));
   };
 
   const updateQuantity = (itemId: string, delta: number) => {
     setCart((prev) =>
       prev
         .map((i) =>
-          i._id === itemId ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
+          i.id === itemId ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
         )
         .filter((i) => i.quantity > 0)
     );
@@ -115,10 +118,19 @@ export default function MenuPage() {
     setCart([]);
   };
 
-  // Calculate totals
+  // Calculate totals: items × tables × service fee
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const perPersonCost = guestCount > 0 ? Math.round(subtotal / guestCount) : 0;
+  const itemsSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalWithTables = itemsSubtotal * tableCount;
+  const serviceFeeAmount = Math.round(totalWithTables * (serviceFee / 100));
+  const grandTotal = totalWithTables + serviceFeeAmount;
+
+  // Build booking items for modal
+  const bookingMenuItems: BookingMenuItem[] = cart.map((item) => ({
+    title: item.title,
+    quantity: item.quantity,
+    price: item.price,
+  }));
 
   const getCategoryLabel = (value: string) => {
     return categories.find((c) => c.value === value)?.label || value;
@@ -132,25 +144,25 @@ export default function MenuPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white shadow-md">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2 sm:gap-4">
+            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 text-gray-700 hover:text-gray-900">
               <ArrowLeft className="w-5 h-5" />
               <span className="hidden sm:inline font-medium">Trang Chủ</span>
             </Link>
 
-            <h1 className="text-2xl font-bold text-gray-900">Thực Đơn</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Thực Đơn</h1>
 
             {/* Cart Button */}
             <GlassButton
               onClick={() => setIsCartOpen(true)}
-              size="default"
-              contentClassName="flex items-center gap-2"
+              size="sm"
+              contentClassName="flex items-center gap-1.5 sm:gap-2"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Giỏ hàng</span>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-red-500 text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -158,25 +170,25 @@ export default function MenuPage() {
           </div>
 
           {/* Search Bar */}
-          <div className="mt-4 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div className="mt-3 sm:mt-4 relative">
+            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
             <Input
               type="text"
               placeholder="Tìm kiếm món ăn..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-full border-gray-300"
+              className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 rounded-full border-gray-300 text-sm sm:text-base"
             />
           </div>
 
           {/* Category Filters */}
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+          <div className="mt-3 sm:mt-4 flex gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-3 px-3 sm:-mx-4 sm:px-4">
             {categories.map((cat) => (
               <GlassButton
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
                 size="sm"
-                className={`flex-shrink-0 ${selectedCategory === cat.value ? 'ring-2 ring-orange-500' : ''}`}
+                className={`flex-shrink-0 text-xs sm:text-sm ${selectedCategory === cat.value ? 'ring-2 ring-orange-500' : ''}`}
               >
                 {cat.label}
               </GlassButton>
@@ -186,33 +198,33 @@ export default function MenuPage() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {loading ? (
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full"></div>
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-xl text-gray-500">
+          <div className="text-center py-12 sm:py-16">
+            <p className="text-base sm:text-xl text-gray-500">
               {menuItems.length === 0 
-                ? "Chưa có món ăn nào trong thực đơn. Vui lòng thêm món ăn trong Sanity Studio."
+                ? "Chưa có món ăn nào trong thực đơn. Vui lòng thêm món ăn trong trang quản trị."
                 : "Không tìm thấy món ăn phù hợp"}
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {filteredItems.map((item) => {
-              const cartItem = cart.find((i) => i._id === item._id);
+              const cartItem = cart.find((i) => i.id === item.id);
               return (
                 <LiquidCard
-                  key={item._id}
+                  key={item.id}
                   className="liquid-card overflow-hidden group"
                 >
                   {/* Image */}
-                  <div className="relative h-48 w-full overflow-hidden rounded-t-xl -mt-6">
-                    {item.image ? (
+                  <div className="relative h-32 sm:h-48 w-full overflow-hidden rounded-t-xl -mt-6">
+                    {item.image_url ? (
                       <Image
-                        src={urlFor(item.image).width(400).height(300).url()}
+                        src={item.image_url}
                         alt={item.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-300"
@@ -229,25 +241,25 @@ export default function MenuPage() {
 
                   {/* Content */}
                   <CardContent>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.title}</h3>
-                    <p className="text-sm text-gray-500 mb-3 line-clamp-2">{item.description}</p>
+                    <h3 className="text-sm sm:text-lg font-semibold text-gray-900 mb-0.5 sm:mb-1 line-clamp-2">{item.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3 line-clamp-2 hidden sm:block">{item.description}</p>
                     
-                    <div className="flex items-center justify-between">
-                      <p className="text-xl font-bold text-orange-600">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-0">
+                      <p className="text-base sm:text-xl font-bold text-orange-600">
                         {item.price?.toLocaleString('vi-VN')}₫
                       </p>
 
                       {cartItem ? (
                         <div className="flex items-center gap-2">
                           <GlassButton
-                            onClick={() => updateQuantity(item._id, -1)}
+                            onClick={() => updateQuantity(item.id, -1)}
                             size="icon"
                           >
                             <Minus className="w-4 h-4" />
                           </GlassButton>
                           <span className="font-semibold w-6 text-center">{cartItem.quantity}</span>
                           <GlassButton
-                            onClick={() => updateQuantity(item._id, 1)}
+                            onClick={() => updateQuantity(item.id, 1)}
                             size="icon"
                           >
                             <Plus className="w-4 h-4" />
@@ -294,14 +306,14 @@ export default function MenuPage() {
               </GlassButton>
             </div>
 
-            {/* Guest Count */}
+            {/* Table Count */}
             <div className="p-4 border-b bg-orange-50">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Số lượng khách dự kiến
+                Số lượng bàn
               </label>
               <div className="flex items-center gap-3">
                 <GlassButton
-                  onClick={() => setGuestCount(Math.max(1, guestCount - 1))}
+                  onClick={() => setTableCount(Math.max(1, tableCount - 1))}
                   size="icon"
                 >
                   <Minus className="w-5 h-5" />
@@ -309,17 +321,49 @@ export default function MenuPage() {
                 <input
                   type="number"
                   min="1"
-                  value={guestCount}
-                  onChange={(e) => setGuestCount(Math.max(1, parseInt(e.target.value) || 1))}
+                  value={tableCount}
+                  onChange={(e) => setTableCount(Math.max(1, parseInt(e.target.value) || 1))}
                   className="w-20 text-center text-xl font-bold border rounded-lg py-2"
                 />
                 <GlassButton
-                  onClick={() => setGuestCount(guestCount + 1)}
+                  onClick={() => setTableCount(tableCount + 1)}
                   size="icon"
                 >
                   <Plus className="w-5 h-5" />
                 </GlassButton>
-                <span className="text-gray-600">người</span>
+                <span className="text-gray-600">bàn</span>
+              </div>
+            </div>
+
+            {/* Service Fee */}
+            <div className="p-4 border-b bg-orange-50/50">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phí phục vụ
+              </label>
+              <div className="flex items-center gap-3">
+                <GlassButton
+                  onClick={() => setServiceFee(Math.max(0, serviceFee - 5))}
+                  size="icon"
+                >
+                  <Minus className="w-5 h-5" />
+                </GlassButton>
+                <div className="flex items-center">
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={serviceFee}
+                    onChange={(e) => setServiceFee(Math.max(0, Math.min(100, parseInt(e.target.value) || 0)))}
+                    className="w-16 text-center text-xl font-bold border rounded-lg py-2"
+                  />
+                  <Percent className="w-5 h-5 ml-1 text-gray-500" />
+                </div>
+                <GlassButton
+                  onClick={() => setServiceFee(Math.min(100, serviceFee + 5))}
+                  size="icon"
+                >
+                  <Plus className="w-5 h-5" />
+                </GlassButton>
               </div>
             </div>
 
@@ -334,11 +378,11 @@ export default function MenuPage() {
               ) : (
                 <div className="space-y-4">
                   {cart.map((item) => (
-                    <div key={item._id} className="flex gap-3 bg-gray-50 rounded-xl p-3">
+                    <div key={item.id} className="flex gap-3 bg-gray-50 rounded-xl p-3">
                       <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                        {item.image ? (
+                        {item.image_url ? (
                           <Image
-                            src={urlFor(item.image).width(100).height(100).url()}
+                            src={item.image_url}
                             alt={item.title}
                             fill
                             className="object-cover"
@@ -356,7 +400,7 @@ export default function MenuPage() {
                         </p>
                         <div className="flex items-center gap-2 mt-1">
                           <GlassButton
-                            onClick={() => updateQuantity(item._id, -1)}
+                            onClick={() => updateQuantity(item.id, -1)}
                             size="icon"
                             className="w-6 h-6"
                           >
@@ -364,7 +408,7 @@ export default function MenuPage() {
                           </GlassButton>
                           <span className="font-medium">{item.quantity}</span>
                           <GlassButton
-                            onClick={() => updateQuantity(item._id, 1)}
+                            onClick={() => updateQuantity(item.id, 1)}
                             size="icon"
                             className="w-6 h-6"
                           >
@@ -374,7 +418,7 @@ export default function MenuPage() {
                       </div>
                       <div className="flex flex-col items-end justify-between">
                         <GlassButton
-                          onClick={() => removeFromCart(item._id)}
+                          onClick={() => removeFromCart(item.id)}
                           size="icon"
                           className="w-6 h-6"
                         >
@@ -395,16 +439,22 @@ export default function MenuPage() {
               <div className="border-t p-4 space-y-3 bg-gray-50">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Tổng món ({totalItems} món)</span>
-                  <span className="font-medium">{subtotal.toLocaleString('vi-VN')}₫</span>
+                  <span className="font-medium">{itemsSubtotal.toLocaleString('vi-VN')}₫</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Ước tính/người ({guestCount} khách)</span>
-                  <span className="font-medium text-orange-600">{perPersonCost.toLocaleString('vi-VN')}₫</span>
+                  <span className="text-gray-600">× {tableCount} bàn</span>
+                  <span className="font-medium">{totalWithTables.toLocaleString('vi-VN')}₫</span>
                 </div>
+                {serviceFee > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Phí phục vụ ({serviceFee}%)</span>
+                    <span className="font-medium">{serviceFeeAmount.toLocaleString('vi-VN')}₫</span>
+                  </div>
+                )}
                 <div className="border-t pt-3 flex justify-between">
                   <span className="text-lg font-bold">Tổng cộng</span>
                   <span className="text-xl font-bold text-orange-600">
-                    {subtotal.toLocaleString('vi-VN')}₫
+                    {grandTotal.toLocaleString('vi-VN')}₫
                   </span>
                 </div>
                 
@@ -416,17 +466,28 @@ export default function MenuPage() {
                   >
                     Xóa tất cả
                   </GlassButton>
-                  <Link href="/booking" className="flex-1">
-                    <GlassButton size="default" className="w-full">
-                      Đặt tiệc ngay
-                    </GlassButton>
-                  </Link>
+                  <GlassButton
+                    onClick={() => { setIsCartOpen(false); setIsBookingOpen(true); }}
+                    size="default"
+                    className="flex-1"
+                  >
+                    Đặt tiệc ngay
+                  </GlassButton>
                 </div>
               </div>
             )}
           </div>
         </div>
       )}
+      {/* Booking Modal */}
+      <BookingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+        menuItems={bookingMenuItems}
+        tableCount={tableCount}
+        serviceFeePercent={serviceFee}
+        mode="menu"
+      />
     </div>
   );
 }

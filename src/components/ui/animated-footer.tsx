@@ -16,9 +16,9 @@ export default function AnimatedFooter() {
       <div className="absolute inset-0 backdrop-blur-md bg-slate-900/80" />
       
       {/* Animated Background Blobs */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30 overflow-hidden">
         <motion.div
-          className="absolute top-0 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl"
+          className="absolute top-0 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl"
           animate={{
             x: [0, 100, 0],
             y: [0, 50, 0],
@@ -30,7 +30,7 @@ export default function AnimatedFooter() {
           }}
         />
         <motion.div
-          className="absolute bottom-0 right-0 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl"
+          className="absolute bottom-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl"
           animate={{
             x: [0, -100, 0],
             y: [0, -50, 0],
@@ -42,7 +42,7 @@ export default function AnimatedFooter() {
           }}
         />
         <motion.div
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl"
+          className="absolute top-1/2 left-1/2 w-48 h-48 sm:w-96 sm:h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl"
           animate={{
             x: [-50, 50, -50],
             y: [-50, 50, -50],
@@ -56,12 +56,12 @@ export default function AnimatedFooter() {
       </div>
 
       {/* Footer Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-8 sm:py-16">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-12">
           {/* Column 1: Brand */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-white">Dịch vụ nấu ăn Bảy Nhân</h3>
-            <p className="text-gray-300 text-sm leading-relaxed">
+          <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
+            <h3 className="text-lg sm:text-2xl font-bold text-white">Dịch vụ nấu ăn Bảy Nhân</h3>
+            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
               Nhận tất cả các loại tiệc: Cưới hỏi, Liên hoan, Sinh nhật, Hội nghị. Với hơn 20 năm kinh nghiệm, chúng tôi cam kết thực phẩm tươi sống và giá cả hợp lý nhất.
             </p>
             <div className="flex gap-4">
@@ -79,7 +79,7 @@ export default function AnimatedFooter() {
 
           {/* Column 2: Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Liên Kết</h4>
+            <h4 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Liên Kết</h4>
             <ul className="space-y-2">
               {["Thực Đơn", "Đặt Tiệc", "Liên Hệ", "Blog"].map((link) => (
                 <li key={link}>
@@ -93,7 +93,7 @@ export default function AnimatedFooter() {
 
           {/* Column 3: Contact */}
           <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Liên Hệ</h4>
+            <h4 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Liên Hệ</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-gray-300 text-sm">
                 <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0 text-purple-400" />
@@ -111,8 +111,8 @@ export default function AnimatedFooter() {
           </div>
 
           {/* Column 4: Newsletter */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-4">Nhận Tin Khuyến Mãi</h4>
+          <div className="col-span-2 sm:col-span-2 md:col-span-1">
+            <h4 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Nhận Tin Khuyến Mãi</h4>
             <div className="flex gap-2">
               <input
                 type="email"
@@ -127,7 +127,7 @@ export default function AnimatedFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10 text-center text-gray-400 text-sm">
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10 text-center text-gray-400 text-xs sm:text-sm">
           <p>© 2026 Nhóm Nấu 7Nhân. All rights reserved.</p>
         </div>
       </div>

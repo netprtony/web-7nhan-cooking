@@ -43,8 +43,8 @@ export function PricingCard({
       </CardHeader>
 
       <CardContent>
-        <div className="mb-6">
-          <span className="text-4xl font-bold text-orange-600">
+        <div className="mb-4 sm:mb-6">
+          <span className="text-2xl sm:text-4xl font-bold text-orange-600">
             {typeof price === "number" ? price.toLocaleString("vi-VN") : price}
             <span className="text-lg font-normal text-gray-500">₫</span>
           </span>
@@ -116,7 +116,7 @@ const restaurantPricingPlans: PricingPlan[] = [
 
 export function PricingCards() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
       {restaurantPricingPlans.map((plan, index) => (
         <PricingCard key={index} {...plan} />
       ))}
