@@ -132,16 +132,16 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-neutral-950 dark:to-neutral-900">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm dark:shadow-neutral-900/50">
         <div className="container mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 text-gray-700 hover:text-gray-900">
+            <Link href="/" className="flex items-center gap-1.5 sm:gap-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               <ArrowLeft className="w-5 h-5" />
               <span className="font-medium text-sm sm:text-base">Trang Chủ</span>
             </Link>
-            <h1 className="text-lg sm:text-2xl font-bold text-gray-900 truncate max-w-[50vw] text-center">Ký Sự Hoạt Động</h1>
+            <h1 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white truncate max-w-[50vw] text-center">Ký Sự Hoạt Động</h1>
             <div className="w-16 sm:w-24"></div>
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function BlogPage() {
 
                 {/* Content */}
                 <CardHeader>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 mb-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                       {formatDate(post.published_at)}
@@ -231,10 +231,12 @@ export default function BlogPage() {
                 </CardContent>
 
                 <CardFooter>
-                  <GlassButton size="sm" contentClassName="flex items-center gap-1">
-                    Xem chi tiết
-                    <ChevronRight className="w-4 h-4" />
-                  </GlassButton>
+                  <Link href={`/blog/${post.slug}`}>
+                    <GlassButton size="sm" contentClassName="flex items-center gap-1">
+                      Xem chi tiết
+                      <ChevronRight className="w-4 h-4" />
+                    </GlassButton>
+                  </Link>
                 </CardFooter>
               </LiquidCard>
             ))}
@@ -242,9 +244,9 @@ export default function BlogPage() {
         )}
 
         {/* Coming Soon Notice */}
-        <div className="mt-10 sm:mt-16 text-center py-8 sm:py-12 bg-gray-100 rounded-2xl px-4">
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-700 mb-2">🚀 Sắp Ra Mắt</h3>
-          <p className="text-gray-500 max-w-md mx-auto text-sm sm:text-base">
+        <div className="mt-10 sm:mt-16 text-center py-8 sm:py-12 bg-gray-100 dark:bg-neutral-800 rounded-2xl px-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">🚀 Sắp Ra Mắt</h3>
+          <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto text-sm sm:text-base">
             Chúng tôi đang cập nhật thêm nhiều ký sự hoạt động mới. 
             Hãy theo dõi để không bỏ lỡ những câu chuyện thú vị!
           </p>

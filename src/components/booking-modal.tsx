@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { X, UtensilsCrossed, Send, ChevronRight } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import Link from 'next/link';
+import type { BookingPlanInfo } from '@/types/pricing';
 
 // ============================================
 // TYPES
@@ -25,6 +26,8 @@ interface BookingModalProps {
   tableCount?: number;
   serviceFeePercent?: number;
   mode?: 'menu' | 'free';
+  plan?: BookingPlanInfo;
+  prefillEmail?: string;
 }
 
 // ============================================
@@ -41,6 +44,14 @@ function generateOrderId(): string {
 // BOOKING MODAL COMPONENT
 // ============================================
 
+// Helper format tiền VND
+const formatVND = (amount: number): string =>
+  new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    maximumFractionDigits: 0,
+  }).format(amount);
+
 export function BookingModal({
   isOpen,
   onClose,
@@ -48,13 +59,15 @@ export function BookingModal({
   tableCount = 1,
   serviceFeePercent = 0,
   mode = 'free',
+  plan,
+  prefillEmail,
 }: BookingModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    email: '',
+    email: prefillEmail || '',
     date: '',
-    tables: '1',
+    tables: plan?.defaultTableCount?.toString() || '1',
     address: '',
     customMenu: '',
     notes: '',
@@ -62,6 +75,13 @@ export function BookingModal({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [confirmEmailSent, setConfirmEmailSent] = useState(false);
+
+  // Sync prefillEmail from footer into form when modal opens
+  useEffect(() => {
+    if (prefillEmail) {
+      setFormData((prev) => ({ ...prev, email: prefillEmail }));
+    }
+  }, [prefillEmail]);
 
   if (!isOpen) return null;
 
@@ -113,6 +133,11 @@ export function BookingModal({
         throw new Error('Thiếu cấu hình EmailJS');
       }
 
+      // Build plan summary for email
+      const planSummary = plan
+        ? `\n📦 GÓI DỊCH VỤ: ${plan.title}\n💰 GIÁ / BÀN: ${formatVND(plan.pricePerTable)}\n🍽️ SỐ BÀN: ${tablesValue} bàn\n💵 TỔNG TẠM TÍNH: ${formatVND(plan.pricePerTable * Number(tablesValue))}\n`
+        : '';
+
       const commonParams = {
         from_name: formData.name,
         from_email: customerEmail || 'Không cung cấp',
@@ -120,9 +145,12 @@ export function BookingModal({
         date: formData.date,
         tables: tablesValue,
         address: formData.address,
-        menu_items: menuSummary,
+        menu_items: planSummary ? planSummary + '\n' + menuSummary : menuSummary,
         notes: formData.notes || 'Không có ghi chú',
         order_id: orderId,
+        plan_title: plan?.title ?? '',
+        plan_price_per_table: plan ? formatVND(plan.pricePerTable) : '',
+        total_price: plan ? formatVND(plan.pricePerTable * Number(tablesValue)) : '',
       };
 
       // 1) Gửi email thông báo cho chủ tiệc
@@ -166,7 +194,7 @@ export function BookingModal({
         phone: '',
         email: '',
         date: '',
-        tables: '1',
+        tables: plan?.defaultTableCount?.toString() || '1',
         address: '',
         customMenu: '',
         notes: '',
@@ -188,38 +216,38 @@ export function BookingModal({
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-lg mx-3 sm:mx-4 max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+      <div className="relative w-full max-w-lg mx-3 sm:mx-4 max-h-[90vh] overflow-y-auto bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-5 border-b bg-white rounded-t-2xl">
+        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-5 border-b dark:border-neutral-700 bg-white dark:bg-neutral-900 rounded-t-2xl">
           <div className="flex items-center gap-2">
             <UtensilsCrossed className="w-5 h-5 text-orange-500" />
-            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Đặt Tiệc</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Đặt Tiệc</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-gray-100 transition"
+            className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-neutral-800 transition"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
           </button>
         </div>
 
         {/* Pre-filled Menu Items (mode = 'menu') */}
         {mode === 'menu' && menuItems.length > 0 && (
-          <div className="p-4 sm:p-5 border-b bg-orange-50/50">
-            <h3 className="text-sm font-semibold text-gray-700 mb-2">Thực đơn đã chọn:</h3>
+          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-orange-50/50 dark:bg-orange-950/20">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Thực đơn đã chọn:</h3>
             <div className="space-y-1.5 max-h-40 overflow-y-auto">
               {menuItems.map((item, idx) => (
                 <div key={idx} className="flex justify-between text-sm">
-                  <span className="text-gray-700">
-                    {item.title} <span className="text-gray-400">x{item.quantity}</span>
+                  <span className="text-gray-700 dark:text-gray-300">
+                    {item.title} <span className="text-gray-400 dark:text-gray-500">x{item.quantity}</span>
                   </span>
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 dark:text-white">
                     {(item.price * item.quantity).toLocaleString('vi-VN')}₫
                   </span>
                 </div>
               ))}
             </div>
-            <div className="mt-3 pt-2 border-t border-orange-200 space-y-1 text-sm">
+            <div className="mt-3 pt-2 border-t border-orange-200 dark:border-orange-800 space-y-1 text-sm">
               {(() => {
                 const itemsTotal = menuItems.reduce((s, i) => s + i.price * i.quantity, 0);
                 const totalWithTables = itemsTotal * tableCount;
@@ -227,16 +255,16 @@ export function BookingModal({
                 const grandTotal = totalWithTables + serviceFeeAmount;
                 return (
                   <>
-                    <div className="flex justify-between text-gray-600">
+                    <div className="flex justify-between text-gray-600 dark:text-gray-400">
                       <span>Tổng món ăn</span>
                       <span>{itemsTotal.toLocaleString('vi-VN')}₫</span>
                     </div>
-                    <div className="flex justify-between text-gray-600">
+                    <div className="flex justify-between text-gray-600 dark:text-gray-400">
                       <span>× {tableCount} bàn</span>
                       <span>{totalWithTables.toLocaleString('vi-VN')}₫</span>
                     </div>
                     {serviceFeePercent > 0 && (
-                      <div className="flex justify-between text-gray-600">
+                      <div className="flex justify-between text-gray-600 dark:text-gray-400">
                         <span>Phí phục vụ ({serviceFeePercent}%)</span>
                         <span>{serviceFeeAmount.toLocaleString('vi-VN')}₫</span>
                       </div>
@@ -252,13 +280,28 @@ export function BookingModal({
           </div>
         )}
 
+        {/* Plan Info (when opened from pricing table) */}
+        {plan && (
+          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-orange-50/50 dark:bg-orange-950/20">
+            <div className="rounded-lg border border-orange-200 dark:border-orange-800 bg-white dark:bg-neutral-900 p-4 space-y-1">
+              <p className="font-semibold text-foreground">📦 {plan.title}</p>
+              <p className="text-sm text-muted-foreground">
+                {formatVND(plan.pricePerTable)} / bàn
+              </p>
+              <p className="text-sm font-medium text-orange-700 dark:text-orange-300">
+                Tổng tạm tính: {formatVND(plan.pricePerTable * Number(formData.tables || plan.defaultTableCount))}
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4">
           {/* Free-form menu (mode = 'free') */}
-          {mode === 'free' && (
+          {mode === 'free' && !plan && (
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Món ăn mong muốn
                 </label>
                 <Link
@@ -275,7 +318,7 @@ export function BookingModal({
                 placeholder="VD: Gà nướng mật ong, Tôm hùm hấp, Lẩu thái hải sản..."
                 rows={3}
               />
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
                 Bạn có thể ghi tên món hoặc xem thực đơn để tham khảo
               </p>
             </div>
@@ -284,7 +327,7 @@ export function BookingModal({
           {/* Contact Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 Họ và Tên <span className="text-red-500">*</span>
               </label>
               <Input
@@ -295,7 +338,7 @@ export function BookingModal({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 Số Điện Thoại <span className="text-red-500">*</span>
               </label>
               <Input
@@ -309,8 +352,8 @@ export function BookingModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Email <span className="text-xs text-gray-400">(để nhận xác nhận đặt tiệc)</span>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+              Email <span className="text-xs text-gray-400 dark:text-gray-500">(để nhận xác nhận đặt tiệc)</span>
             </label>
             <Input
               type="email"
@@ -322,7 +365,7 @@ export function BookingModal({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                 Ngày Tổ Chức <span className="text-red-500">*</span>
               </label>
               <Input
@@ -334,7 +377,7 @@ export function BookingModal({
             </div>
             {mode === 'free' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   Số Bàn <span className="text-red-500">*</span>
                 </label>
                 <Input
@@ -349,10 +392,10 @@ export function BookingModal({
             )}
             {mode === 'menu' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                   Số Bàn
                 </label>
-                <div className="flex items-center h-10 px-3 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-700 font-medium">
+                <div className="flex items-center h-10 px-3 bg-gray-50 dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-md text-sm text-gray-700 dark:text-gray-300 font-medium">
                   {tableCount} bàn
                 </div>
               </div>
@@ -360,7 +403,7 @@ export function BookingModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               Địa Chỉ Tổ Chức <span className="text-red-500">*</span>
             </label>
             <Input
@@ -372,7 +415,7 @@ export function BookingModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
               Ghi chú thêm
             </label>
             <Textarea
@@ -385,7 +428,7 @@ export function BookingModal({
 
           {/* Email hint */}
           {!formData.email && (
-            <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg">
+            <p className="text-xs text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 p-2 rounded-lg">
               💡 Nhập email để nhận xác nhận đặt tiệc tự động
             </p>
           )}
@@ -412,7 +455,7 @@ export function BookingModal({
           </GlassButton>
 
           {status === 'success' && (
-            <div className="text-center p-3 bg-green-50 rounded-xl">
+            <div className="text-center p-3 bg-green-50 dark:bg-green-950/30 rounded-xl">
               <p className="text-green-600 font-medium">✅ Đã gửi thành công!</p>
               <p className="text-green-500 text-sm mt-1">
                 {confirmEmailSent
@@ -422,7 +465,7 @@ export function BookingModal({
             </div>
           )}
           {status === 'error' && (
-            <div className="text-center p-3 bg-red-50 rounded-xl">
+            <div className="text-center p-3 bg-red-50 dark:bg-red-950/30 rounded-xl">
               <p className="text-red-600 font-medium">Có lỗi xảy ra. Vui lòng thử lại.</p>
             </div>
           )}

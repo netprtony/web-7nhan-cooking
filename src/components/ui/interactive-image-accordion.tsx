@@ -7,27 +7,27 @@ const accordionItems = [
   {
     id: 1,
     title: 'Món Khai Vị',
-    imageUrl: '/assets/bg3.jpg',
+    imageUrl: '/assets/bgImageSrc/bg3.jpg',
   },
   {
     id: 2,
     title: 'Hải Sản Tươi Sống',
-    imageUrl: '/assets/bg2.jpg',
+    imageUrl: '/assets/bgImageSrc/bg2.jpg',
   },
   {
     id: 3,
     title: 'Đặc Sản Ba Miền',
-    imageUrl: '/assets/bg4.jpg',
+    imageUrl: '/assets/bgImageSrc/bg4.jpg',
   },
   {
     id: 4,
     title: 'Lẩu & Súp',
-    imageUrl: '/assets/bg5.jpg',
+    imageUrl: '/assets/bgImageSrc/bg5.jpg',
   },
   {
     id: 5,
     title: 'Tráng Miệng',
-    imageUrl: '/assets/bg1.jpg',
+    imageUrl: '/assets/bgImageSrc/bg1.jpg',
   },
 ];
 
@@ -83,19 +83,19 @@ export function LandingAccordionItem() {
         className="absolute inset-0 bg-cover bg-center bg-fixed scale-105"
         style={{ backgroundImage: "url('/assets/bg1.jpg')" }}
       />
-      <div className="absolute inset-0 backdrop-blur-sm bg-white/85" />
+      <div className="absolute inset-0 backdrop-blur-sm bg-white/85 dark:bg-neutral-950/85" />
       
       <div className="relative container mx-auto px-4 py-12 md:py-24">
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
         <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 leading-tight tracking-tighter">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight tracking-tighter">
             Dịch vụ nấu ăn Bảy Nhân
           </h1>
-          <div className="mt-4 sm:mt-6 space-y-2 text-base sm:text-lg text-gray-600 max-w-xl mx-auto md:mx-0">
-            <p className="font-semibold text-gray-900 border-b border-gray-200 pb-2">
+          <div className="mt-4 sm:mt-6 space-y-2 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto md:mx-0">
+            <p className="font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-neutral-700 pb-2">
               Nhận tất cả các loại tiệc: Tiệc cưới - Liên hoan - Sinh nhật - Hội nghị...
             </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-sm sm:text-base text-gray-700">
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-sm sm:text-base text-gray-700 dark:text-gray-300">
               <li className="flex items-center gap-2">
                 <span className="text-orange-500">✓</span> Chất lượng đảm bảo
               </li>
@@ -115,7 +115,7 @@ export function LandingAccordionItem() {
             <p className="mt-4 sm:mt-6 font-bold text-orange-600 text-lg sm:text-xl">
               ☎️ Hotline: 0909.947.086
             </p>
-            <p className="italic text-gray-500">Hân hạnh phục vụ quý khách!</p>
+            <p className="italic text-gray-500 dark:text-gray-400">Hân hạnh phục vụ quý khách!</p>
           </div>
           <div className="mt-6 sm:mt-8">
             <GlassButton size="lg">
