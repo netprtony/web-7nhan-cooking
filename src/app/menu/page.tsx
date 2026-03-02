@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Search, Filter, Plus, Minus, ShoppingCart, X, ArrowLeft, Trash2, Percent } from 'lucide-react';
+import { Search, Plus, Minus, ShoppingCart, X, ArrowLeft, Trash2, Percent } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
 import { LiquidCard, CardContent } from '@/components/ui/liquid-glass-card';
 import { Input } from '@/components/ui/input';
 import { BookingModal, BookingMenuItem } from '@/components/booking-modal';
+import { useCartContext } from '@/context/cart-context';
+import { FoodDetailModal } from '@/components/ui/food-detail-modal';
+import type { FoodItem } from '@/types/food';
 
 interface MenuItem {
   id: string;
@@ -39,12 +42,13 @@ export default function MenuPage() {
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const { items: cart, addItem, removeItem, updateQuantity: cartUpdateQty, clearCart, totalItems } = useCartContext();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [tableCount, setTableCount] = useState(1);
   const [serviceFee, setServiceFee] = useState(10);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [selectedMenuFood, setSelectedMenuFood] = useState<FoodItem | null>(null);
 
   // Fetch menu items from Supabase
   useEffect(() => {
@@ -87,39 +91,31 @@ export default function MenuPage() {
     setFilteredItems(result);
   }, [selectedCategory, searchQuery, menuItems]);
 
-  // Cart functions
+  // Cart helper: convert MenuItem to FoodItem for addItem
   const addToCart = (item: MenuItem) => {
-    setCart((prev) => {
-      const existing = prev.find((i) => i.id === item.id);
-      if (existing) {
-        return prev.map((i) =>
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-        );
-      }
-      return [...prev, { ...item, quantity: 1 }];
-    });
+    const foodItem: FoodItem = {
+      id: item.id,
+      name: item.title,
+      description: item.description ?? '',
+      price: item.price,
+      image: item.image_url ?? '/assets/default_food.webp',
+      category: item.category,
+    };
+    addItem(foodItem, 1);
   };
 
   const removeFromCart = (itemId: string) => {
-    setCart((prev) => prev.filter((i) => i.id !== itemId));
+    removeItem(itemId);
   };
 
   const updateQuantity = (itemId: string, delta: number) => {
-    setCart((prev) =>
-      prev
-        .map((i) =>
-          i.id === itemId ? { ...i, quantity: Math.max(0, i.quantity + delta) } : i
-        )
-        .filter((i) => i.quantity > 0)
-    );
-  };
-
-  const clearCart = () => {
-    setCart([]);
+    const existing = cart.find((i) => i.id === itemId);
+    if (existing) {
+      cartUpdateQty(itemId, existing.quantity + delta);
+    }
   };
 
   // Calculate totals: items × tables × service fee
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
   const itemsSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalWithTables = itemsSubtotal * tableCount;
   const serviceFeeAmount = Math.round(totalWithTables * (serviceFee / 100));
@@ -127,7 +123,7 @@ export default function MenuPage() {
 
   // Build booking items for modal
   const bookingMenuItems: BookingMenuItem[] = cart.map((item) => ({
-    title: item.title,
+    title: item.name,
     quantity: item.quantity,
     price: item.price,
   }));
@@ -214,14 +210,24 @@ export default function MenuPage() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {filteredItems.map((item) => {
-              const cartItem = cart.find((i) => i.id === item.id);
+              const cartItem = cart.find((i: { id: string }) => i.id === item.id);
               return (
                 <LiquidCard
                   key={item.id}
                   className="liquid-card overflow-hidden group"
                 >
-                  {/* Image */}
-                  <div className="relative h-32 sm:h-48 w-full overflow-hidden rounded-t-xl -mt-6">
+                  {/* Image — click to open detail modal */}
+                  <div
+                    className="relative h-32 sm:h-48 w-full overflow-hidden rounded-t-xl -mt-6 cursor-pointer"
+                    onClick={() => setSelectedMenuFood({
+                      id: item.id,
+                      name: item.title,
+                      description: item.description ?? '',
+                      price: item.price,
+                      image: item.image_url ?? '/assets/default_food.webp',
+                      category: getCategoryLabel(item.category),
+                    })}
+                  >
                     {item.image_url ? (
                       <Image
                         src={item.image_url}
@@ -241,7 +247,7 @@ export default function MenuPage() {
 
                   {/* Content */}
                   <CardContent>
-                    <h3 className="text-sm sm:text-lg font-semibold text-gray-900 dark:text-white mb-0.5 sm:mb-1 line-clamp-2">{item.title}</h3>
+                    <h3 className="text-sm sm:text-lg font-semibold text-foreground mb-0.5 sm:mb-1 line-clamp-2">{item.title}</h3>
                     <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 line-clamp-2 hidden sm:block">{item.description}</p>
                     
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1.5 sm:gap-0">
@@ -380,10 +386,10 @@ export default function MenuPage() {
                   {cart.map((item) => (
                     <div key={item.id} className="flex gap-3 bg-gray-50 dark:bg-neutral-800 rounded-xl p-3">
                       <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                        {item.image_url ? (
+                        {item.image ? (
                           <Image
-                            src={item.image_url}
-                            alt={item.title}
+                            src={item.image}
+                            alt={item.name}
                             fill
                             className="object-cover"
                           />
@@ -394,7 +400,7 @@ export default function MenuPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-gray-900 dark:text-white truncate">{item.title}</h4>
+                        <h4 className="font-medium text-gray-900 dark:text-white truncate">{item.name}</h4>
                         <p className="text-sm text-orange-600 font-semibold">
                           {item.price?.toLocaleString('vi-VN')}₫
                         </p>
@@ -487,6 +493,12 @@ export default function MenuPage() {
         tableCount={tableCount}
         serviceFeePercent={serviceFee}
         mode="menu"
+      />
+
+      {/* Food Detail Modal */}
+      <FoodDetailModal
+        food={selectedMenuFood}
+        onClose={() => setSelectedMenuFood(null)}
       />
     </div>
   );

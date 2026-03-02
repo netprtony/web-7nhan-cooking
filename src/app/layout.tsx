@@ -1,18 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { CartProvider } from "@/context/cart-context";
 import GlobalHeader from "@/components/global-header";
+import { LoadingScreen } from "@/components/ui/loading-screen";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Dịch vụ nấu ăn Bảy Nhân - Đặt Tiệc Tại Gia Chuyên Nghiệp",
@@ -26,17 +17,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           enableSystem={false}
           disableTransitionOnChange
         >
-          <GlobalHeader />
-          <main className="pt-16">{children}</main>
+          <CartProvider>
+            <LoadingScreen />
+            <GlobalHeader />
+            <main className="pt-24 md:pt-28">{children}</main>
+          </CartProvider>
         </ThemeProvider>
       </body>
     </html>

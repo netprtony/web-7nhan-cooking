@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Button, type ButtonProps } from "@/components/ui/button";
+import { TextAnimate } from "@/components/ui/text-animate";
+import { LatestBlogCards } from "@/components/sections/latest-blog-cards";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React from "react";;
 
 // Define the props for reusability
 interface StatProps {
@@ -24,7 +26,6 @@ interface HeroSectionEventProps {
   subtitle?: string;
   actions?: ActionProps[];
   stats?: StatProps[];
-  images?: string[];
   className?: string;
 }
 
@@ -46,34 +47,7 @@ const itemVariants = {
   },
 };
 
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" as const },
-  },
-};
-
-const floatingVariants = {
-  animate: {
-    y: [0, -8, 0],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: "easeInOut" as const,
-    },
-  },
-};
-
 // Default props phù hợp với ngữ cảnh đặt tiệc
-const defaultTitle = (
-  <>
-    Không gian tiệc <br />
-    <span className="text-orange-600 dark:text-orange-400">đẳng cấp & tinh tế</span>
-  </>
-);
-
 const defaultSubtitle =
   "Trải nghiệm ẩm thực đỉnh cao với thực đơn phong phú, không gian sang trọng và dịch vụ chuyên nghiệp. Đặt bàn ngay hôm nay để có buổi tiệc hoàn hảo.";
 
@@ -95,18 +69,10 @@ const defaultStats: StatProps[] = [
   },
 ];
 
-const defaultImages = [
-  "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2074&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop",
-];
-
 const HeroSectionEvent = ({
-  title = defaultTitle,
   subtitle = defaultSubtitle,
   actions = [],
   stats = defaultStats,
-  images = defaultImages,
   className,
 }: HeroSectionEventProps) => {
   return (
@@ -125,12 +91,17 @@ const HeroSectionEvent = ({
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <motion.h1
-            className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl"
-            variants={itemVariants}
-          >
-            {title}
-          </motion.h1>
+          <div className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+            <TextAnimate
+              animation="blurInUp"
+              by="word"
+              as="h1"
+              once
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl"
+            >
+              Không gian tiệc đẳng cấp và tinh tế
+            </TextAnimate>
+          </div>
           <motion.p
             className="mt-6 max-w-md text-lg text-muted-foreground"
             variants={itemVariants}
@@ -173,62 +144,15 @@ const HeroSectionEvent = ({
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Image Collage */}
+        {/* Right Column: Latest Blog Cards */}
         <motion.div
-          className="relative h-[400px] w-full sm:h-[500px]"
+          className="w-full"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          {/* Decorative Shapes - warm restaurant colors */}
-          <motion.div
-            className="absolute -top-4 left-1/4 h-16 w-16 rounded-full bg-orange-200/50 dark:bg-orange-800/30"
-            variants={floatingVariants}
-            animate="animate"
-          />
-          <motion.div
-            className="absolute bottom-0 right-1/4 h-12 w-12 rounded-lg bg-red-200/50 dark:bg-red-800/30"
-            variants={floatingVariants}
-            animate="animate"
-          />
-          <motion.div
-            className="absolute bottom-1/4 left-4 h-6 w-6 rounded-full bg-yellow-200/50 dark:bg-yellow-800/30"
-            variants={floatingVariants}
-            animate="animate"
-          />
-
-          {/* Images */}
-          <motion.div
-            className="absolute left-1/2 top-0 h-48 w-48 -translate-x-1/2 rounded-2xl bg-muted p-2 shadow-lg sm:h-64 sm:w-64"
-            variants={imageVariants}
-          >
-            <img
-              src={images[0]}
-              alt="Không gian tiệc"
-              className="h-full w-full rounded-xl object-cover"
-            />
-          </motion.div>
-          <motion.div
-            className="absolute right-0 top-1/3 h-40 w-40 rounded-2xl bg-muted p-2 shadow-lg sm:h-56 sm:w-56"
-            variants={imageVariants}
-          >
-            <img
-              src={images[1]}
-              alt="Món ăn đặc sắc"
-              className="h-full w-full rounded-xl object-cover"
-            />
-          </motion.div>
-          <motion.div
-            className="absolute bottom-0 left-0 h-32 w-32 rounded-2xl bg-muted p-2 shadow-lg sm:h-48 sm:w-48"
-            variants={imageVariants}
-          >
-            <img
-              src={images[2]}
-              alt="Không gian nhà hàng"
-              className="h-full w-full rounded-xl object-cover"
-            />
-          </motion.div>
+          <LatestBlogCards />
         </motion.div>
       </div>
     </section>

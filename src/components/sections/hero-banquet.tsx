@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ScrollExpandMedia from '@/components/scroll-expansion-hero';
+import { ScrollVelocityFood } from '@/components/sections/scroll-velocity-food';
 
 // ============================================
 // IMAGE POOLS — random on every page load
@@ -24,62 +25,21 @@ const MEDIA_IMAGES = [
   '/assets/mediaSrc/mivittim.png',
   '/assets/mediaSrc/mucne.jpg',
   '/assets/mediaSrc/supcua.jpg',
-  '/assets/mediaSrc/28bfece31aec43815a8672ba4d73f6d0.jpg',
-  '/assets/mediaSrc/60afa1fc5e8f70ef4a8c59e1d5bca40f.jpg',
-  '/assets/mediaSrc/66c5e81f029b084e391bf6288dd9ba97.jpg',
-  '/assets/mediaSrc/968e05a09c03679b1f45dee657c93b76.jpg',
-  '/assets/mediaSrc/a54fd36edd21d5d67e641980c95d551e.jpg',
-  '/assets/mediaSrc/e1c9b9ddac992e063b8ec15676a3e579.jpg',
+  '/assets/mediaSrc/20230515161938907.webp',
+  '/assets/mediaSrc/20240424094950598.webp',
+  '/assets/mediaSrc/202309051543247016.webp',
+  '/assets/mediaSrc/202406051707191395.webp',
+  '/assets/mediaSrc/202406051717238266.webp',
+  '/assets/mediaSrc/202506271648487316.webp',
+  '/assets/mediaSrc/202506271649402242.webp',
+  '/assets/mediaSrc/202506271709128585.webp',
+  '/assets/mediaSrc/202506271713075933.webp',
 ];
 
 /** Pick a random element from an array */
 function pickRandom<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
-
-// ─── Children content hiện ra sau khi scroll expand ──────────────────────────
-const HeroExpandedContent = ({ onBookingClick }: { onBookingClick?: () => void }) => (
-  <div className="max-w-4xl mx-auto text-center space-y-8">
-    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-      Không Gian Tiệc Đẳng Cấp
-    </h2>
-    <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-      Hơn 10 năm kinh nghiệm tổ chức tiệc cưới, hội nghị và sự kiện doanh nghiệp.
-      Đội ngũ chuyên nghiệp, thực đơn phong phú, không gian sang trọng —
-      tất cả để buổi tiệc của bạn trở nên hoàn hảo và đáng nhớ.
-    </p>
-
-    {/* Stats nhanh */}
-    <div className="grid grid-cols-3 gap-6 pt-4">
-      {[
-        { value: '500+', label: 'Tiệc thành công' },
-        { value: '10 năm', label: 'Kinh nghiệm' },
-        { value: '4.9★', label: 'Đánh giá Google' },
-      ].map((stat) => (
-        <div key={stat.label} className="text-center">
-          <p className="text-3xl font-bold text-orange-600">{stat.value}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{stat.label}</p>
-        </div>
-      ))}
-    </div>
-
-    {/* CTA buttons */}
-    <div className="flex flex-wrap justify-center gap-4 pt-4">
-      <button
-        onClick={onBookingClick}
-        className="px-8 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-xl transition-colors cursor-pointer"
-      >
-        Đặt Bàn Ngay
-      </button>
-      <a
-        href="/menu"
-        className="px-8 py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-950/20 font-semibold rounded-xl transition-colors"
-      >
-        Xem Thực Đơn
-      </a>
-    </div>
-  </div>
-);
 
 // ─── Main Hero Component ──────────────────────────────────────────────────────
 interface HeroBanquetProps {
@@ -109,7 +69,8 @@ const HeroBanquet = ({ onBookingClick }: HeroBanquetProps) => {
         scrollToExpand="Cuộn để khám phá ↓"
         textBlend={false}
       >
-        <HeroExpandedContent onBookingClick={onBookingClick} />
+        {/* Scroll velocity food gallery thay cho HeroExpandedContent */}
+        <ScrollVelocityFood />
       </ScrollExpandMedia>
     </div>
   );
