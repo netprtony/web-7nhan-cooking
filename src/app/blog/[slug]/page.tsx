@@ -348,7 +348,7 @@ export default function BlogDetailPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-neutral-950 dark:to-neutral-900">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm dark:shadow-neutral-900/50">
+      <header className="sticky top-16 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md shadow-sm dark:shadow-neutral-900/50">
         <div className="container mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <Link href="/blog" className="flex items-center gap-1.5 sm:gap-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">

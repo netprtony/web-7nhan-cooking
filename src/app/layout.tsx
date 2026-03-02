@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import GlobalHeader from "@/components/global-header";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,7 +35,8 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          {children}
+          <GlobalHeader />
+          <main className="pt-16">{children}</main>
         </ThemeProvider>
       </body>
     </html>
