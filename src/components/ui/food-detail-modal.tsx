@@ -161,7 +161,7 @@ export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
                     onClick={handleAddToCart}
                   >
                     <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
-                    Đặt món — {formatVND(food.price * qty)}
+                    Đặt món
                   </Button>
                 </div>
               </div>

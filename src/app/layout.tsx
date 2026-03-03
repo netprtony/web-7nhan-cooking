@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { CartProvider } from "@/context/cart-context";
+import { CartUIProvider } from "@/context/cart-ui-context";
+import { CartSidebar } from "@/components/cart-sidebar";
 import GlobalHeader from "@/components/global-header";
 import { LoadingScreen } from "@/components/ui/loading-screen";
 import "./globals.css";
@@ -25,9 +27,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <CartProvider>
-            <LoadingScreen />
-            <GlobalHeader />
-            <main className="pt-24 md:pt-28">{children}</main>
+            <CartUIProvider>
+              <LoadingScreen />
+              <GlobalHeader />
+              <CartSidebar />
+              <main className="pt-24 md:pt-28">{children}</main>
+            </CartUIProvider>
           </CartProvider>
         </ThemeProvider>
       </body>

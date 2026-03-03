@@ -1,14 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import HeroBanquet from "@/components/sections/hero-banquet";
-import { LandingAccordionItem } from "@/components/ui/interactive-image-accordion";
-import { FooterRestaurant } from "@/components/ui/footer-section";
-import { BookingModal } from "@/components/booking-modal";
-import HeroSectionEvent from "@/components/ui/hero-section-event";
-import PricingTableBanquet from "@/components/ui/pricing-table-banquet";
-import WhyChooseUsCards from "@/components/ui/why-choose-us-cards";
 import type { BookingPlanInfo } from "@/types/pricing";
+
+// ── Lazy-loaded sections (loaded only when scrolled into view) ──────────────
+const HeroSectionEvent = dynamic(
+  () => import("@/components/ui/hero-section-event"),
+  { ssr: false, loading: () => <div className="h-[60vh] animate-pulse bg-orange-50 dark:bg-neutral-900" /> }
+);
+
+const LandingAccordionItem = dynamic(
+  () => import("@/components/ui/interactive-image-accordion").then((m) => ({ default: m.LandingAccordionItem })),
+  { ssr: false, loading: () => <div className="h-96 animate-pulse bg-gray-100 dark:bg-neutral-900" /> }
+);
+
+const WhyChooseUsCards = dynamic(
+  () => import("@/components/ui/why-choose-us-cards"),
+  { ssr: false, loading: () => <div className="h-96 animate-pulse bg-gray-50 dark:bg-neutral-950" /> }
+);
+
+const PricingTableBanquet = dynamic(
+  () => import("@/components/ui/pricing-table-banquet"),
+  { ssr: false, loading: () => <div className="h-96 animate-pulse bg-orange-50 dark:bg-neutral-950" /> }
+);
+
+const FooterRestaurant = dynamic(
+  () => import("@/components/ui/footer-section").then((m) => ({ default: m.FooterRestaurant })),
+  { ssr: false }
+);
+
+const BookingModal = dynamic(
+  () => import("@/components/booking-modal").then((m) => ({ default: m.BookingModal })),
+  { ssr: false }
+);
 
 // ============================================
 // MAIN COMPONENT

@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, User, Clock, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Calendar, User, ChevronRight } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
 import { LiquidCard, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/liquid-glass-card';
 
@@ -178,15 +179,33 @@ export default function BlogPage() {
       {/* Blog Posts Grid */}
       <main className="container mx-auto px-4 py-6 sm:py-8">
         {loading ? (
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+          // Skeleton loading state
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="rounded-2xl overflow-hidden animate-pulse">
+                <div className="h-56 bg-gray-200 dark:bg-neutral-700" />
+                <div className="p-4 space-y-3">
+                  <div className="h-3 bg-gray-200 dark:bg-neutral-700 rounded w-1/2" />
+                  <div className="h-5 bg-gray-200 dark:bg-neutral-700 rounded" />
+                  <div className="h-5 bg-gray-200 dark:bg-neutral-700 rounded w-4/5" />
+                  <div className="h-3 bg-gray-200 dark:bg-neutral-700 rounded w-full" />
+                  <div className="h-3 bg-gray-200 dark:bg-neutral-700 rounded w-3/4" />
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {filteredPosts.map((post, index) => (
-              <LiquidCard
+              <motion.div
                 key={post.id}
-                className="liquid-card overflow-hidden group"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.4, delay: Math.min(index % 6, 4) * 0.07 }}
+              >
+              <LiquidCard
+                className="liquid-card overflow-hidden group h-full"
               >
                 {/* Image */}
                 <div className="relative h-56 w-full overflow-hidden rounded-t-xl -mt-6 -mx-0">
@@ -195,6 +214,7 @@ export default function BlogPage() {
                       src={post.main_image_url}
                       alt={post.title}
                       fill
+                      loading="lazy"
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
@@ -239,6 +259,7 @@ export default function BlogPage() {
                   </Link>
                 </CardFooter>
               </LiquidCard>
+              </motion.div>
             ))}
           </div>
         )}

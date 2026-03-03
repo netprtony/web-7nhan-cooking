@@ -9,6 +9,9 @@ import {
 import { FoodDetailModal } from "@/components/ui/food-detail-modal"
 import { TextAnimate } from "@/components/ui/text-animate"
 import type { FoodItem } from "@/types/food"
+import Link from "next/link"
+import { GlassButton } from "@/components/ui/glass-button"
+import { ArrowRight } from "lucide-react"
 
 const DEFAULT_FOOD_IMAGE = "/assets/default_food.webp"
 
@@ -115,6 +118,15 @@ export function ScrollVelocityFood() {
         {/* Gradient fade edges */}
         <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r" />
         <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l" />
+      </div>
+
+      <div className="flex justify-center !mt-8">
+        <Link href="/menu">
+          <GlassButton size="lg" contentClassName="flex items-center gap-2">
+            Xem tất cả món ăn
+            <ArrowRight className="w-4 h-4" />
+          </GlassButton>
+        </Link>
       </div>
 
       {/* Food Detail Modal */}
