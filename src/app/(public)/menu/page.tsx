@@ -22,6 +22,8 @@ interface MenuItem {
   description: string;
   image_url: string | null;
   is_available: boolean;
+  ingredients: any;
+  food_cost: number;
 }
 
 interface CartItem extends MenuItem {
@@ -30,11 +32,9 @@ interface CartItem extends MenuItem {
 
 const categories = [
   { value: 'all', label: 'Tất Cả', color: 'bg-gray-900' },
-  { value: 'appetizer', label: 'Món Khai Vị', color: 'bg-orange-500' },
-  { value: 'main', label: 'Món Chính', color: 'bg-green-600' },
-  { value: 'seafood', label: 'Hải Sản', color: 'bg-blue-500' },
-  { value: 'specialty', label: 'Đặc Sản', color: 'bg-red-500' },
-  { value: 'hotpot', label: 'Lẩu & Súp', color: 'bg-amber-500' },
+  { value: 'appetizer', label: 'Món Khai Vị', color: 'bg-primary' },
+  { value: 'main_course', label: 'Món Chính', color: 'bg-green-600' },
+  { value: 'sharing_plate', label: 'Món Chia Sẻ (Sharing)', color: 'bg-blue-500' },
   { value: 'dessert', label: 'Tráng Miệng', color: 'bg-pink-500' },
 ];
 
@@ -53,7 +53,7 @@ export default function MenuPage() {
     const fetchMenu = async () => {
       const { data, error } = await supabase
         .from('menu_items')
-        .select('id, title, category, price, description, image_url, is_available')
+        .select('id, title, category, price, description, image_url, is_available, ingredients, food_cost')
         .eq('is_available', true)
         .order('category', { ascending: true });
       
@@ -143,7 +143,7 @@ export default function MenuPage() {
               <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Giỏ hàng</span>
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-orange-500 text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-primary text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
@@ -169,7 +169,7 @@ export default function MenuPage() {
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
                 size="sm"
-                className={`flex-shrink-0 text-xs sm:text-sm ${selectedCategory === cat.value ? 'ring-2 ring-orange-500' : ''}`}
+                className={`flex-shrink-0 text-xs sm:text-sm ${selectedCategory === cat.value ? 'ring-2 ring-primary' : ''}`}
               >
                 {cat.label}
               </GlassButton>
@@ -182,7 +182,7 @@ export default function MenuPage() {
       <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {loading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+            <div className="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full"></div>
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
@@ -215,6 +215,8 @@ export default function MenuPage() {
                         price: item.price,
                         image: item.image_url ?? '/assets/default_food.webp',
                         category: getCategoryLabel(item.category),
+                        ingredients: item.ingredients,
+                        food_cost: item.food_cost
                       })}
                     >
                       {item.image_url ? (
@@ -222,11 +224,12 @@ export default function MenuPage() {
                           src={item.image_url}
                           alt={item.title}
                           fill
-                          loading="lazy"
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw"
+                          loading={index === 0 ? "eager" : "lazy"}
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-orange-200 to-pink-200 dark:from-orange-900/40 dark:to-pink-900/40 flex items-center justify-center">
+                        <div className="w-full h-full bg-gradient-to-br from-primary/20 to-pink-200 dark:from-primary/30 dark:to-pink-900/40 flex items-center justify-center">
                           <span className="text-3xl">🍽️</span>
                         </div>
                       )}
@@ -246,7 +249,7 @@ export default function MenuPage() {
                     <CardContent className="p-2 sm:p-3">
                       <h3 className="text-xs sm:text-sm font-semibold text-foreground mb-1 line-clamp-2 leading-tight">{item.title}</h3>
                       <div className="flex items-center justify-between gap-1 flex-wrap">
-                        <p className="text-sm sm:text-base font-bold text-orange-600">
+                        <p className="text-sm sm:text-base font-bold text-primary">
                           {item.price?.toLocaleString('vi-VN')}₫
                         </p>
 

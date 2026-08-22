@@ -38,9 +38,8 @@ export function MenuSection() {
   const categories = [
     { value: 'all', label: 'Tất Cả' },
     { value: 'appetizer', label: 'Món Khai Vị' },
-    { value: 'seafood', label: 'Hải Sản' },
-    { value: 'specialty', label: 'Đặc Sản' },
-    { value: 'hotpot', label: 'Lẩu & Súp' },
+    { value: 'main_course', label: 'Món Chính' },
+    { value: 'sharing_plate', label: 'Món Chia Sẻ' },
     { value: 'dessert', label: 'Tráng Miệng' },
   ];
 
@@ -58,7 +57,7 @@ export function MenuSection() {
             key={cat.value}
             onClick={() => setSelectedCategory(cat.value)}
             size="default"
-            className={selectedCategory === cat.value ? 'ring-2 ring-orange-500' : ''}
+            className={selectedCategory === cat.value ? 'ring-2 ring-primary' : ''}
           >
             {cat.label}
           </GlassButton>
@@ -74,6 +73,8 @@ export function MenuSection() {
                   src={item.image_url}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 1024px) 50vw, 33vw"
+                  loading="lazy"
                   className="object-cover"
                 />
               </div>

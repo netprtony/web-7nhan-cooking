@@ -226,7 +226,7 @@ const PricingTableBanquet: React.FC<PricingTableBanquetProps> = ({
               {/* Featured badge */}
               {plan.isFeatured && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
+                  <div className="bg-gradient-to-r from-primary to-red-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg">
                     ⭐ Phổ biến nhất
                   </div>
                 </div>
@@ -237,7 +237,7 @@ const PricingTableBanquet: React.FC<PricingTableBanquetProps> = ({
                 relative h-full p-6 sm:p-8 rounded-xl border-2 transition-all duration-300
                 ${
                   plan.isFeatured
-                    ? "border-orange-500 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 shadow-lg"
+                    ? "border-primary bg-gradient-to-br from-accent to-red-50 dark:from-primary/15 dark:to-red-950/20 shadow-lg"
                     : "border-gray-200 dark:border-neutral-800 bg-white dark:bg-neutral-900"
                 }
               `}

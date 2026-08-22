@@ -18,10 +18,14 @@ interface FoodDetailModalProps {
 export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
   const { addItem } = useCartContext()
   const [qty, setQty] = useState(1)
+  const [isIngredientsExpanded, setIsIngredientsExpanded] = useState(false)
 
-  // Reset qty khi mở món mới
+  // Reset states khi mở món mới
   useEffect(() => {
-    if (food) setQty(1)
+    if (food) {
+      setQty(1)
+      setIsIngredientsExpanded(false)
+    }
   }, [food?.id])
 
   // Đóng modal bằng Escape
@@ -100,7 +104,7 @@ export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
                     </span>
                   )}
                   {food.isBestseller && (
-                    <span className="rounded-full bg-orange-500 px-3 py-1 text-xs font-bold text-white">
+                    <span className="rounded-full bg-primary px-3 py-1 text-xs font-bold text-white">
                       Bán Chạy
                     </span>
                   )}
@@ -122,6 +126,80 @@ export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
                     <p className="mt-1.5 sm:mt-2 text-sm text-muted-foreground leading-relaxed">
                       {food.description}
                     </p>
+                  )}
+
+                  {/* Hiển thị thành phần & giá vốn (Theo yêu cầu DEV) */}
+                  {food.ingredients && food.ingredients.length > 0 && (
+                    <div className="bg-muted/30 rounded-lg p-3 sm:p-4 mt-3 border border-border/50">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider">
+                          Thành phần món ăn
+                        </h4>
+                        {food.food_cost ? (
+                          <span className="text-[10px] sm:text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                            Food Cost: {new Intl.NumberFormat('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 2 }).format(food.food_cost)} ({((food.food_cost / food.price) * 100).toFixed(1)}%)
+                          </span>
+                        ) : null}
+                      </div>
+
+                      <div className={`space-y-4 overflow-hidden relative transition-all duration-300 ${isIngredientsExpanded ? 'max-h-[800px] overflow-y-auto pr-1' : 'max-h-[140px]'}`}>
+                        {food.ingredients[0]?.category ? (
+                          // Grouped items
+                          food.ingredients.map((group: any, gIdx: number) => (
+                            <div key={gIdx}>
+                              <h5 className="text-xs font-bold text-foreground/80 mb-1.5">{group.category}</h5>
+                              <ul className="text-xs text-muted-foreground space-y-1.5 border-l-2 border-border/50 pl-2">
+                                {group.items?.map((ing: any, idx: number) => (
+                                  <li key={idx} className="flex flex-col pb-1.5 border-b border-border/20 last:border-0 last:pb-0">
+                                    <div className="flex justify-between items-start">
+                                      <span className="font-medium text-foreground mr-2">{ing.name}</span>
+                                      <span className="text-right whitespace-nowrap opacity-90">
+                                        {ing.quantity !== null ? `${ing.quantity} ${ing.unit}` : ing.unit}
+                                        {ing.unit_cost && ing.quantity && (
+                                          <span className="opacity-70 ml-1">({formatVND(ing.unit_cost * ing.quantity)})</span>
+                                        )}
+                                      </span>
+                                    </div>
+                                    {ing.notes && <span className="text-[10px] italic opacity-70 mt-0.5">Lưu ý: {ing.notes}</span>}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))
+                        ) : (
+                          // Flat items
+                          <ul className="text-xs text-muted-foreground space-y-1.5">
+                            {food.ingredients.map((ing: any, idx: number) => (
+                              <li key={idx} className="flex justify-between items-center pb-1.5 border-b border-border/40 last:border-0 last:pb-0">
+                                <span>{ing.name}</span>
+                                <div className="text-right">
+                                  <span className="font-medium text-foreground">
+                                    {ing.quantity !== null ? `${ing.quantity} ${ing.unit}` : ing.unit}
+                                  </span>
+                                  {ing.unit_cost && ing.quantity && (
+                                    <span className="opacity-70 ml-2">
+                                      ({formatVND(ing.unit_cost * ing.quantity)})
+                                    </span>
+                                  )}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+
+                        {!isIngredientsExpanded && (
+                          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-muted/30 to-transparent flex items-end justify-center pb-1">
+                          </div>
+                        )}
+                      </div>
+                      
+                      <button
+                        onClick={() => setIsIngredientsExpanded(!isIngredientsExpanded)}
+                        className="w-full mt-2 py-1.5 text-xs font-semibold text-primary/80 hover:text-primary hover:bg-primary/5 rounded-md transition-colors"
+                      >
+                        {isIngredientsExpanded ? 'Ẩn bớt' : 'Xem toàn bộ thành phần'}
+                      </button>
+                    </div>
                   )}
                 </div>
 

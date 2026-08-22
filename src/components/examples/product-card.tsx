@@ -57,7 +57,7 @@ export function ProductCard({
               className="w-full h-64 object-cover transition-transform hover:scale-105"
             />
           ) : (
-            <div className="w-full h-64 bg-gradient-to-br from-orange-200 to-pink-200 flex items-center justify-center">
+            <div className="w-full h-64 bg-gradient-to-br from-primary/20 to-pink-200 flex items-center justify-center">
               <span className="text-6xl">🍽️</span>
             </div>
           )}
@@ -84,7 +84,7 @@ export function ProductCard({
           )}
           
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-orange-600">
+            <span className="text-2xl font-bold text-primary">
               {price.toLocaleString('vi-VN')}₫
             </span>
             {originalPrice && (

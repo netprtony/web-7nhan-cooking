@@ -39,7 +39,7 @@ export function LoadingScreen() {
             {/* Logo */}
             <motion.img
               src="/main_logo.png"
-              alt="7Nhân"
+              alt="AFTER HOURS"
               className="h-20 md:h-28 w-auto object-contain"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}

@@ -29,7 +29,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Một buổi tiệc cưới ấm cúng với thực đơn đặc biệt gồm các món hải sản tươi sống và đặc sản miền Tây...',
     main_image_url: null,
     published_at: '2026-01-15',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Cưới',
   },
   {
@@ -39,7 +39,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Tiệc sinh nhật đáng yêu với các món ăn phù hợp cho trẻ em, trang trí theo chủ đề hoạt hình...',
     main_image_url: null,
     published_at: '2026-01-10',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Sinh Nhật',
   },
   {
@@ -49,7 +49,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Buổi tiệc tất niên hoành tráng cho công ty XYZ với thực đơn đa dạng và phong cách phục vụ chuyên nghiệp...',
     main_image_url: null,
     published_at: '2025-12-28',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Công Ty',
   },
   {
@@ -59,7 +59,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Chuẩn bị mâm cỗ đám giỗ theo phong cách miền Trung với các món truyền thống đậm đà hương vị...',
     main_image_url: null,
     published_at: '2025-12-20',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Gia Đình',
   },
   {
@@ -69,7 +69,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Buổi tiệc BBQ vui nhộn bên hồ bơi với các loại thịt nướng hảo hạng và cocktail thơm ngon...',
     main_image_url: null,
     published_at: '2025-12-15',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Ngoài Trời',
   },
   {
@@ -79,7 +79,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Tiệc tân gia với đầy đủ các món từ khai vị đến tráng miệng, phục vụ 80 khách mời...',
     main_image_url: null,
     published_at: '2025-12-10',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Tân Gia',
   },
 ];
@@ -89,7 +89,7 @@ const categoryColors: Record<string, string> = {
   'Tiệc Sinh Nhật': 'bg-purple-500',
   'Tiệc Công Ty': 'bg-blue-500',
   'Tiệc Gia Đình': 'bg-green-500',
-  'Tiệc Ngoài Trời': 'bg-orange-500',
+  'Tiệc Ngoài Trời': 'bg-primary',
   'Tiệc Tân Gia': 'bg-amber-500',
 };
 
@@ -149,13 +149,13 @@ export default function BlogPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-10 sm:py-16 px-4 bg-gradient-to-r from-orange-500 to-pink-500 text-white">
+      <section className="relative py-10 sm:py-16 px-4 bg-gradient-to-r from-primary to-pink-500 text-white">
         <div className="container mx-auto text-center">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Những Khoảnh Khắc Đáng Nhớ
           </h2>
           <p className="text-sm sm:text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
-            Theo dõi hành trình của Nhóm Nấu 7Nhân qua những bữa tiệc ấm cúng và đầy yêu thương
+            Theo dõi hành trình của Nhóm Nấu AFTER HOURS qua những bữa tiệc ấm cúng và đầy yêu thương
           </p>
         </div>
       </section>
@@ -168,7 +168,7 @@ export default function BlogPage() {
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               size="sm"
-              className={`flex-shrink-0 ${selectedCategory === cat ? 'ring-2 ring-orange-500' : ''}`}
+              className={`flex-shrink-0 ${selectedCategory === cat ? 'ring-2 ring-primary' : ''}`}
             >
               {cat === 'all' ? 'Tất Cả' : cat}
             </GlassButton>
@@ -218,7 +218,7 @@ export default function BlogPage() {
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
-                    <div className={`w-full h-full ${index % 2 === 0 ? 'bg-gradient-to-br from-orange-400 to-pink-500' : 'bg-gradient-to-br from-purple-400 to-blue-500'} flex items-center justify-center`}>
+                    <div className={`w-full h-full ${index % 2 === 0 ? 'bg-gradient-to-br from-primary to-pink-500' : 'bg-gradient-to-br from-purple-400 to-blue-500'} flex items-center justify-center`}>
                       <span className="text-6xl">🍳</span>
                     </div>
                   )}
@@ -239,7 +239,7 @@ export default function BlogPage() {
                       {post.author}
                     </span>
                   </div>
-                  <CardTitle className="text-lg sm:text-xl group-hover:text-orange-500 transition-colors">
+                  <CardTitle className="text-lg sm:text-xl group-hover:text-primary transition-colors">
                     {post.title}
                   </CardTitle>
                 </CardHeader>
@@ -276,7 +276,7 @@ export default function BlogPage() {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-10 sm:py-16">
-        <div className="bg-gradient-to-r from-orange-500 to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white text-center">
+        <div className="bg-gradient-to-r from-primary to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white text-center">
           <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             Bạn Muốn Tổ Chức Tiệc?
           </h3>

@@ -27,11 +27,11 @@ export function PricingCard({
 }: PricingPlan) {
   return (
     <LiquidCard 
-      className={`liquid-card ${popular ? "ring-2 ring-orange-500 relative" : ""}`}
+      className={`liquid-card ${popular ? "ring-2 ring-primary relative" : ""}`}
     >
       {popular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+          <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
             PHỔ BIẾN NHẤT
           </span>
         </div>
@@ -44,7 +44,7 @@ export function PricingCard({
 
       <CardContent>
         <div className="mb-4 sm:mb-6">
-          <span className="text-2xl sm:text-4xl font-bold text-orange-600">
+          <span className="text-2xl sm:text-4xl font-bold text-primary">
             {typeof price === "number" ? price.toLocaleString("vi-VN") : price}
             <span className="text-lg font-normal text-gray-500">₫</span>
           </span>

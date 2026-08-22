@@ -12,7 +12,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS menu_items (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
-  category TEXT NOT NULL CHECK (category IN ('appetizer', 'main', 'seafood', 'specialty', 'hotpot', 'dessert')),
+  category TEXT NOT NULL CHECK (category IN ('appetizer','main_course','sharing_plate','dessert')),
   price INTEGER NOT NULL DEFAULT 0,
   description TEXT,
   image_url TEXT,  -- URL ảnh từ Supabase Storage hoặc URL bên ngoài

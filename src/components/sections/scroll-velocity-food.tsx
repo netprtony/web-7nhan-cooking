@@ -24,15 +24,15 @@ interface SupabaseMenuItem {
   description: string | null
   image_url: string | null
   is_available: boolean
+  ingredients: any
+  food_cost: number
 }
 
 // Category label map
 const categoryLabels: Record<string, string> = {
   appetizer: "Món Khai Vị",
-  main: "Món Chính",
-  seafood: "Hải Sản",
-  specialty: "Đặc Sản",
-  hotpot: "Lẩu & Súp",
+  main_course: "Món Chính",
+  sharing_plate: "Món Chia Sẻ (Sharing)",
   dessert: "Tráng Miệng",
 }
 
@@ -45,7 +45,7 @@ export function ScrollVelocityFood() {
     const fetchMenu = async () => {
       const { data, error } = await supabase
         .from("menu_items")
-        .select("id, title, category, price, description, image_url, is_available")
+        .select("id, title, category, price, description, image_url, is_available, ingredients, food_cost")
         .eq("is_available", true)
         .order("category", { ascending: true })
 
@@ -58,6 +58,8 @@ export function ScrollVelocityFood() {
           price: item.price,
           image: item.image_url ?? DEFAULT_FOOD_IMAGE,
           category: categoryLabels[item.category] ?? item.category,
+          ingredients: item.ingredients,
+          food_cost: item.food_cost
         }))
         setItems(mapped)
       }
@@ -168,7 +170,7 @@ function FoodCard({ food, onClick }: { food: FoodItem; onClick: () => void }) {
             </span>
           )}
           {food.isBestseller && (
-            <span className="rounded-full bg-orange-500/90 px-2 py-0.5 text-xs font-bold text-white">
+            <span className="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-bold text-white">
               🔥
             </span>
           )}
@@ -179,7 +181,7 @@ function FoodCard({ food, onClick }: { food: FoodItem; onClick: () => void }) {
           <p className="text-sm font-semibold text-white leading-tight line-clamp-1">
             {food.name}
           </p>
-          <p className="text-xs text-orange-300 font-medium mt-0.5">
+          <p className="text-xs text-primary/70 font-medium mt-0.5">
             {new Intl.NumberFormat("vi-VN", {
               style: "currency",
               currency: "VND",

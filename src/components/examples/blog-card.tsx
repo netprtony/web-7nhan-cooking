@@ -25,7 +25,7 @@ export function BlogCard({
   date,
   readTime = "5 phút đọc",
   category,
-  categoryColor = "bg-orange-500",
+  categoryColor = "bg-primary",
   onReadMore,
 }: BlogCardProps) {
   return (
@@ -40,7 +40,7 @@ export function BlogCard({
             className="w-full h-48 object-cover transition-transform hover:scale-105"
           />
         ) : (
-          <div className="w-full h-48 bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center">
+          <div className="w-full h-48 bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center">
             <span className="text-6xl">📝</span>
           </div>
         )}
@@ -52,7 +52,7 @@ export function BlogCard({
       </div>
 
       <CardHeader>
-        <CardTitle className="text-xl line-clamp-2 group-hover:text-orange-500 transition-colors">
+        <CardTitle className="text-xl line-clamp-2 group-hover:text-primary transition-colors">
           {title}
         </CardTitle>
         <CardDescription className="line-clamp-3">

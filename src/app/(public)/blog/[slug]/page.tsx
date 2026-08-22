@@ -25,7 +25,7 @@ const categoryColors: Record<string, string> = {
   'Tiệc Sinh Nhật': 'bg-purple-500',
   'Tiệc Công Ty': 'bg-blue-500',
   'Tiệc Gia Đình': 'bg-green-500',
-  'Tiệc Ngoài Trời': 'bg-orange-500',
+  'Tiệc Ngoài Trời': 'bg-primary',
   'Tiệc Tân Gia': 'bg-amber-500',
 };
 
@@ -38,7 +38,7 @@ const samplePosts: BlogPost[] = [
     excerpt: 'Một buổi tiệc cưới ấm cúng với thực đơn đặc biệt gồm các món hải sản tươi sống và đặc sản miền Tây...',
     content: `## Tiệc Cưới Tại Biệt Thự Quận 7
 
-Một buổi tiệc cưới ấm cúng với thực đơn đặc biệt gồm các món hải sản tươi sống và đặc sản miền Tây. Đội ngũ đầu bếp của Nhóm Nấu 7Nhân đã chuẩn bị chu đáo từng món ăn với nguyên liệu tươi ngon nhất.
+Một buổi tiệc cưới ấm cúng với thực đơn đặc biệt gồm các món hải sản tươi sống và đặc sản miền Tây. Đội ngũ đầu bếp của Nhóm Nấu AFTER HOURS đã chuẩn bị chu đáo từng món ăn với nguyên liệu tươi ngon nhất.
 
 ### Thực Đơn Tiệc
 
@@ -56,7 +56,7 @@ Tiệc được tổ chức trong khuôn viên biệt thự rộng rãi với tr
 > "Đồ ăn rất ngon, phục vụ chuyên nghiệp. Gia đình tôi rất hài lòng!" - Anh Minh & Chị Hương`,
     main_image_url: null,
     published_at: '2026-01-15',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Cưới',
   },
   {
@@ -76,14 +76,14 @@ Tiệc sinh nhật đáng yêu với các món ăn phù hợp cho trẻ em, tran
 
 ### Hoạt Động Vui Nhộn
 
-Ngoài phần ẩm thực, đội ngũ 7Nhân còn hỗ trợ tổ chức các trò chơi nhỏ cho các bé và phần thổi nến sinh nhật đáng nhớ.
+Ngoài phần ẩm thực, đội ngũ AFTER HOURS còn hỗ trợ tổ chức các trò chơi nhỏ cho các bé và phần thổi nến sinh nhật đáng nhớ.
 
 ### Lời Chia Sẻ
 
 > "Bé nhà mình thích lắm, nhất là món gà chiên và bánh kem. Các chú đầu bếp rất thân thiện!" - Chị Mai`,
     main_image_url: null,
     published_at: '2026-01-10',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Sinh Nhật',
   },
   {
@@ -108,7 +108,7 @@ Buổi tiệc tất niên hoành tráng phục vụ 100 khách mời với thự
 Tiệc được tổ chức trong không gian nhà hàng riêng với sân khấu mini, âm thanh ánh sáng chuyên nghiệp cho các tiết mục văn nghệ và bốc thăm may mắn.`,
     main_image_url: null,
     published_at: '2025-12-28',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Công Ty',
   },
   {
@@ -129,12 +129,12 @@ Mâm cỗ đám giỗ chuẩn phong cách miền Trung với các món truyền 
 
 ### Ý Nghĩa
 
-Đội ngũ 7Nhân hiểu rõ tầm quan trọng của mâm cỗ đám giỗ trong văn hóa Việt Nam. Mỗi món ăn đều được chuẩn bị tỉ mỉ, giữ nguyên hương vị truyền thống.
+Đội ngũ AFTER HOURS hiểu rõ tầm quan trọng của mâm cỗ đám giỗ trong văn hóa Việt Nam. Mỗi món ăn đều được chuẩn bị tỉ mỉ, giữ nguyên hương vị truyền thống.
 
-> "Mâm cỗ đẹp, đúng phong tục miền Trung. Cảm ơn đội ngũ 7Nhân rất nhiều!" - Cô Thanh`,
+> "Mâm cỗ đẹp, đúng phong tục miền Trung. Cảm ơn đội ngũ AFTER HOURS rất nhiều!" - Cô Thanh`,
     main_image_url: null,
     published_at: '2025-12-20',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Gia Đình',
   },
   {
@@ -155,12 +155,12 @@ Buổi tiệc BBQ pool party tại Villa Thảo Điền với không gian ngoài
 
 ### Trải Nghiệm
 
-Đội ngũ đầu bếp 7Nhân trực tiếp nướng tại chỗ (live station), khách mời có thể tùy chọn độ chín và gia vị theo sở thích.
+Đội ngũ đầu bếp AFTER HOURS trực tiếp nướng tại chỗ (live station), khách mời có thể tùy chọn độ chín và gia vị theo sở thích.
 
 > "Tiệc BBQ tuyệt vời! Thịt nướng mềm, hải sản tươi. Party pools + BBQ = combo hoàn hảo!" - Anh Đức`,
     main_image_url: null,
     published_at: '2025-12-15',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Ngoài Trời',
   },
   {
@@ -184,10 +184,10 @@ Tiệc tân gia hoành tráng phục vụ 80 khách mời với thực đơn 30 
 
 8 bàn tiệc, mỗi bàn 10 khách. Đội ngũ phục vụ 6 người đảm bảo mọi khách mời đều được chăm sóc chu đáo.
 
-> "Tiệc tân gia nhà mình rất hoàn hảo. 80 khách mà ai cũng khen đồ ăn ngon. Cảm ơn 7Nhân!" - Chú Hùng`,
+> "Tiệc tân gia nhà mình rất hoàn hảo. 80 khách mà ai cũng khen đồ ăn ngon. Cảm ơn AFTER HOURS!" - Chú Hùng`,
     main_image_url: null,
     published_at: '2025-12-10',
-    author: 'Nhóm Nấu 7Nhân',
+    author: 'Nhóm Nấu AFTER HOURS',
     category: 'Tiệc Tân Gia',
   },
 ];
@@ -250,7 +250,7 @@ function renderContent(content: string) {
     } else if (trimmed.startsWith('> ')) {
       flushList();
       elements.push(
-        <blockquote key={i} className="border-l-4 border-orange-500 pl-4 py-2 my-4 italic text-gray-600 dark:text-gray-400 bg-orange-50/50 dark:bg-orange-950/20 rounded-r-lg">
+        <blockquote key={i} className="border-l-4 border-primary pl-4 py-2 my-4 italic text-gray-600 dark:text-gray-400 bg-accent/50 dark:bg-primary/15 rounded-r-lg">
           {trimmed.replace('> ', '')}
         </blockquote>
       );
@@ -325,7 +325,7 @@ export default function BlogDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-neutral-950 dark:to-neutral-900 flex items-center justify-center">
-        <div className="animate-spin w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+        <div className="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full"></div>
       </div>
     );
   }
@@ -361,7 +361,7 @@ export default function BlogDetailPage() {
       </header>
 
       {/* Hero Image */}
-      <div className="relative w-full h-64 sm:h-80 md:h-96 bg-gradient-to-r from-orange-500 to-pink-500">
+      <div className="relative w-full h-64 sm:h-80 md:h-96 bg-gradient-to-r from-primary to-pink-500">
         {post.main_image_url ? (
           <Image
             src={post.main_image_url}
@@ -461,7 +461,7 @@ export default function BlogDetailPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className={`w-full h-full ${index % 2 === 0 ? 'bg-gradient-to-br from-orange-400 to-pink-500' : 'bg-gradient-to-br from-purple-400 to-blue-500'} flex items-center justify-center`}>
+                      <div className={`w-full h-full ${index % 2 === 0 ? 'bg-gradient-to-br from-primary to-pink-500' : 'bg-gradient-to-br from-purple-400 to-blue-500'} flex items-center justify-center`}>
                         <span className="text-4xl">🍳</span>
                       </div>
                     )}
@@ -470,7 +470,7 @@ export default function BlogDetailPage() {
                     <span className={`inline-block px-2 py-0.5 ${categoryColors[related.category] || 'bg-gray-500'} text-white text-xs rounded-full mb-2`}>
                       {related.category}
                     </span>
-                    <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors line-clamp-2">
+                    <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2">
                       {related.title}
                     </h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -486,7 +486,7 @@ export default function BlogDetailPage() {
 
       {/* CTA */}
       <section className="container mx-auto px-4 py-10 sm:py-16">
-        <div className="bg-gradient-to-r from-orange-500 to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white text-center">
+        <div className="bg-gradient-to-r from-primary to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white text-center">
           <h3 className="text-2xl sm:text-3xl font-bold mb-3">
             Bạn Muốn Tổ Chức Tiệc Tương Tự?
           </h3>

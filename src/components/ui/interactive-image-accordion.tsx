@@ -89,7 +89,7 @@ export function LandingAccordionItem() {
       <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
         <div className="w-full md:w-1/2 text-center md:text-left">
           <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 dark:text-white leading-tight tracking-tighter">
-            Dịch vụ nấu ăn Bảy Nhân
+            AFTER HOURS – MODERN DINING
           </h1>
           <div className="mt-4 sm:mt-6 space-y-2 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-xl mx-auto md:mx-0">
             <p className="font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-neutral-700 pb-2">
@@ -97,22 +97,22 @@ export function LandingAccordionItem() {
             </p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-sm sm:text-base text-gray-700 dark:text-gray-300">
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Chất lượng đảm bảo
+                <span className="text-primary">✓</span> Chất lượng đảm bảo
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Thực phẩm tươi sống
+                <span className="text-primary">✓</span> Thực phẩm tươi sống
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Đầu bếp trên 20 năm kinh nghiệm
+                <span className="text-primary">✓</span> Đầu bếp trên 20 năm kinh nghiệm
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Giá cả hợp lý
+                <span className="text-primary">✓</span> Giá cả hợp lý
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-orange-500">✓</span> Thực đơn đa dạng, phong phú
+                <span className="text-primary">✓</span> Thực đơn đa dạng, phong phú
               </li>
             </ul>
-            <p className="mt-4 sm:mt-6 font-bold text-orange-600 text-lg sm:text-xl">
+            <p className="mt-4 sm:mt-6 font-bold text-primary text-lg sm:text-xl">
               ☎️ Hotline: 0909.947.086
             </p>
             <p className="italic text-gray-500 dark:text-gray-400">Hân hạnh phục vụ quý khách!</p>

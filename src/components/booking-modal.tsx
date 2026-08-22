@@ -220,7 +220,7 @@ export function BookingModal({
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-5 border-b dark:border-neutral-700 bg-white dark:bg-neutral-900 rounded-t-2xl">
           <div className="flex items-center gap-2">
-            <UtensilsCrossed className="w-5 h-5 text-orange-500" />
+            <UtensilsCrossed className="w-5 h-5 text-primary" />
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Đặt Tiệc</h2>
           </div>
           <button
@@ -233,7 +233,7 @@ export function BookingModal({
 
         {/* Pre-filled Menu Items (mode = 'menu') */}
         {mode === 'menu' && menuItems.length > 0 && (
-          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-orange-50/50 dark:bg-orange-950/20">
+          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-accent/50 dark:bg-primary/15">
             <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Thực đơn đã chọn:</h3>
             <div className="space-y-1.5 max-h-40 overflow-y-auto">
               {menuItems.map((item, idx) => (
@@ -247,7 +247,7 @@ export function BookingModal({
                 </div>
               ))}
             </div>
-            <div className="mt-3 pt-2 border-t border-orange-200 dark:border-orange-800 space-y-1 text-sm">
+            <div className="mt-3 pt-2 border-t border-primary/30 dark:border-primary/60 space-y-1 text-sm">
               {(() => {
                 const itemsTotal = menuItems.reduce((s, i) => s + i.price * i.quantity, 0);
                 const totalWithTables = itemsTotal * tableCount;
@@ -269,7 +269,7 @@ export function BookingModal({
                         <span>{serviceFeeAmount.toLocaleString('vi-VN')}₫</span>
                       </div>
                     )}
-                    <div className="flex justify-between font-bold text-orange-600 pt-1">
+                    <div className="flex justify-between font-bold text-primary pt-1">
                       <span>Tổng cộng</span>
                       <span>{grandTotal.toLocaleString('vi-VN')}₫</span>
                     </div>
@@ -282,13 +282,13 @@ export function BookingModal({
 
         {/* Plan Info (when opened from pricing table) */}
         {plan && (
-          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-orange-50/50 dark:bg-orange-950/20">
-            <div className="rounded-lg border border-orange-200 dark:border-orange-800 bg-white dark:bg-neutral-900 p-4 space-y-1">
+          <div className="p-4 sm:p-5 border-b dark:border-neutral-700 bg-accent/50 dark:bg-primary/15">
+            <div className="rounded-lg border border-primary/30 dark:border-primary/60 bg-white dark:bg-neutral-900 p-4 space-y-1">
               <p className="font-semibold text-foreground">📦 {plan.title}</p>
               <p className="text-sm text-muted-foreground">
                 {formatVND(plan.pricePerTable)} / bàn
               </p>
-              <p className="text-sm font-medium text-orange-700 dark:text-orange-300">
+              <p className="text-sm font-medium text-primary dark:text-primary/70">
                 Tổng tạm tính: {formatVND(plan.pricePerTable * Number(formData.tables || plan.defaultTableCount))}
               </p>
             </div>
@@ -306,7 +306,7 @@ export function BookingModal({
                 </label>
                 <Link
                   href="/menu"
-                  className="flex items-center gap-1 text-xs text-orange-500 hover:text-orange-600 font-medium"
+                  className="flex items-center gap-1 text-xs text-primary hover:text-primary font-medium"
                   onClick={onClose}
                 >
                   Xem thực đơn <ChevronRight className="w-3 h-3" />

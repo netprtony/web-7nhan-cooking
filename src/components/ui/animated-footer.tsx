@@ -60,7 +60,7 @@ export default function AnimatedFooter() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 md:gap-12">
           {/* Column 1: Brand */}
           <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-2 md:col-span-1">
-            <h3 className="text-lg sm:text-2xl font-bold text-white">Dịch vụ nấu ăn Bảy Nhân</h3>
+            <h3 className="text-lg sm:text-2xl font-bold text-white">AFTER HOURS – MODERN DINING</h3>
             <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
               Nhận tất cả các loại tiệc: Cưới hỏi, Liên hoan, Sinh nhật, Hội nghị. Với hơn 20 năm kinh nghiệm, chúng tôi cam kết thực phẩm tươi sống và giá cả hợp lý nhất.
             </p>
@@ -105,7 +105,7 @@ export default function AnimatedFooter() {
               </li>
               <li className="flex items-center gap-3 text-gray-300 text-sm">
                 <Mail className="w-5 h-5 flex-shrink-0 text-purple-400" />
-                <span>lienhe@baynhancooking.vn</span>
+                <span>contact@afterhours.vn</span>
               </li>
             </ul>
           </div>
@@ -128,7 +128,7 @@ export default function AnimatedFooter() {
 
         {/* Bottom Bar */}
         <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-white/10 text-center text-gray-400 text-xs sm:text-sm">
-          <p>© 2026 Nhóm Nấu 7Nhân. All rights reserved.</p>
+          <p>© 2026 AFTER HOURS – MODERN DINING. All rights reserved.</p>
         </div>
       </div>
     </footer>

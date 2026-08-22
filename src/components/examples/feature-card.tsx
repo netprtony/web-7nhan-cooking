@@ -14,12 +14,12 @@ export function FeatureCard({
   icon: Icon,
   title,
   description,
-  iconColor = "text-orange-500",
+  iconColor = "text-primary",
 }: FeatureCardProps) {
   return (
     <LiquidCard className="text-center liquid-card">
       <CardContent className="pt-4 sm:pt-6">
-        <div className={`mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-3 sm:mb-4`}>
+        <div className={`mx-auto w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center mb-3 sm:mb-4`}>
           <Icon className={`h-5 w-5 sm:h-7 sm:w-7 ${iconColor}`} />
         </div>
         <CardTitle className="mb-1.5 sm:mb-2 text-base sm:text-xl">{title}</CardTitle>

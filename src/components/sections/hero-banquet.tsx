@@ -65,7 +65,7 @@ const HeroBanquet = ({ onBookingClick }: HeroBanquetProps) => {
         mediaSrc={mediaImage}
         bgImageSrc={bgImage}
         title="Tiệc Sang Trọng"
-        date="Nhà Hàng 7 Nhân"
+        date="AFTER HOURS"
         scrollToExpand="Cuộn để khám phá ↓"
         textBlend={false}
       >

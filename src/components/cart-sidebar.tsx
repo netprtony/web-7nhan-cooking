@@ -72,12 +72,12 @@ export function CartSidebar() {
               {/* ── Header ── */}
               <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 border-b dark:border-neutral-700">
                 <div className="flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-orange-500" />
+                  <ShoppingCart className="w-5 h-5 text-primary" />
                   <h2 className="text-lg sm:text-xl font-bold dark:text-white">
                     Thực Đơn Dự Kiến
                   </h2>
                   {totalItems > 0 && (
-                    <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+                    <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                       {totalItems > 99 ? "99+" : totalItems}
                     </span>
                   )}
@@ -88,7 +88,7 @@ export function CartSidebar() {
               </div>
 
               {/* ── Table count ── */}
-              <div className="px-4 py-3 sm:px-6 border-b dark:border-neutral-700 bg-orange-50 dark:bg-orange-950/30">
+              <div className="px-4 py-3 sm:px-6 border-b dark:border-neutral-700 bg-primary/5 dark:bg-primary/20">
                 <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
                   Số lượng bàn
                 </p>
@@ -119,7 +119,7 @@ export function CartSidebar() {
               </div>
 
               {/* ── Service fee ── */}
-              <div className="px-4 py-3 sm:px-6 border-b dark:border-neutral-700 bg-orange-50/50 dark:bg-orange-950/20">
+              <div className="px-4 py-3 sm:px-6 border-b dark:border-neutral-700 bg-accent/50 dark:bg-primary/15">
                 <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
                   Phí phục vụ
                 </p>
@@ -164,7 +164,7 @@ export function CartSidebar() {
                       Vào trang{" "}
                       <button
                         onClick={closeCart}
-                        className="text-orange-500 font-semibold underline"
+                        className="text-primary font-semibold underline"
                       >
                         Thực Đơn
                       </button>{" "}
@@ -193,7 +193,7 @@ export function CartSidebar() {
                               loading="lazy"
                             />
                           ) : (
-                            <div className="w-full h-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center text-xl">
+                            <div className="w-full h-full bg-primary/10 dark:bg-primary/40 flex items-center justify-center text-xl">
                               🍽️
                             </div>
                           )}
@@ -204,7 +204,7 @@ export function CartSidebar() {
                           <p className="font-medium text-sm text-gray-900 dark:text-white truncate">
                             {item.name}
                           </p>
-                          <p className="text-xs text-orange-600 font-semibold mt-0.5">
+                          <p className="text-xs text-primary font-semibold mt-0.5">
                             {item.price?.toLocaleString("vi-VN")}₫
                           </p>
                           <div className="flex items-center gap-2 mt-1.5">
@@ -272,7 +272,7 @@ export function CartSidebar() {
                   )}
                   <div className="flex justify-between border-t dark:border-neutral-700 pt-2 sm:pt-3">
                     <span className="text-base font-bold dark:text-white">Tổng cộng</span>
-                    <span className="text-lg font-bold text-orange-600">
+                    <span className="text-lg font-bold text-primary">
                       {grandTotal.toLocaleString("vi-VN")}₫
                     </span>
                   </div>
@@ -291,7 +291,7 @@ export function CartSidebar() {
                         setIsBookingOpen(true);
                       }}
                       size="default"
-                      className="flex-1 bg-orange-500/20 text-sm font-semibold"
+                      className="flex-1 bg-primary/20 text-sm font-semibold"
                     >
                       Đặt tiệc ngay
                     </GlassButton>

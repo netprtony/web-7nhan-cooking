@@ -87,7 +87,7 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
             <address className="space-y-2 text-sm not-italic text-muted-foreground">
               <p>📍 Tân Xuân, Hóc Môn, TPHCM</p>
               <p>📞 0939 088 227</p>
-              <p>✉️ huynhvikhang6a13@gmail.com</p>
+              <p>✉️ contact@afterhours.vn</p>
               <p>🕐 Nhận đặt tiệc mọi lúc</p>
             </address>
           </div>
@@ -174,7 +174,7 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Dịch vụ nấu ăn Bảy Nhân. Bản quyền thuộc về chúng tôi.
+            © {new Date().getFullYear()} AFTER HOURS – MODERN DINING. Bản quyền thuộc về chúng tôi.
           </p>
           <nav className="flex gap-4 text-sm">
             <a href="#" className="transition-colors hover:text-primary">

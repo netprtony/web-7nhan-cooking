@@ -33,7 +33,7 @@ export default function GlobalHeader() {
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/main_logo.png"
-            alt="7Nhân Cooking"
+            alt="AFTER HOURS Cooking"
             width={220}
             height={80}
             className="h-14 md:h-20 w-auto object-contain"
@@ -42,10 +42,9 @@ export default function GlobalHeader() {
           />
           <div className="flex flex-col">
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold">Nhân</span>
-              <span className="text-sm font-bold">| Hotline: 0909.947.086</span>
+              <span className="text-2xl font-bold">AFTER HOURS</span>
             </div>
-            <span className="text-sm font-medium text-muted-foreground">Thợ nấu tại nhà</span>
+            <span className="text-sm font-medium text-muted-foreground">MODERN DINING</span>
           </div>
         </Link>
 
@@ -85,7 +84,7 @@ export default function GlobalHeader() {
           >
             <ShoppingCart className="h-5 w-5" />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
                 {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}

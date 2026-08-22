@@ -15,7 +15,7 @@ export function BookingForm() {
         className="absolute inset-0 bg-cover bg-center scale-105"
         style={{ backgroundImage: "url('/assets/bg4.jpg')" }}
       />
-      <div className="absolute inset-0 backdrop-blur-sm bg-orange-50/90" />
+      <div className="absolute inset-0 backdrop-blur-sm bg-accent/90" />
       
       <div className="relative container mx-auto px-3 sm:px-4">
         <div className="max-w-2xl mx-auto text-center">

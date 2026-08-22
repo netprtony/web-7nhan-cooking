@@ -81,7 +81,7 @@ export function LatestBlogCards() {
                   loading="lazy"
                 />
               ) : (
-                <div className="h-full w-full bg-gradient-to-br from-orange-400 to-pink-500 flex items-center justify-center">
+                <div className="h-full w-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center">
                   <span className="text-2xl">🍳</span>
                 </div>
               )}
@@ -90,7 +90,7 @@ export function LatestBlogCards() {
             {/* Info */}
             <div className="flex-1 min-w-0">
               {post.category && (
-                <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-orange-500 mb-0.5">
+                <span className="inline-block text-[10px] font-semibold uppercase tracking-wider text-primary mb-0.5">
                   {post.category}
                 </span>
               )}

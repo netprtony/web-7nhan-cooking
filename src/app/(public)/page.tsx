@@ -8,7 +8,7 @@ import type { BookingPlanInfo } from "@/types/pricing";
 // ── Lazy-loaded sections (loaded only when scrolled into view) ──────────────
 const HeroSectionEvent = dynamic(
   () => import("@/components/ui/hero-section-event"),
-  { ssr: false, loading: () => <div className="h-[60vh] animate-pulse bg-orange-50 dark:bg-neutral-900" /> }
+  { ssr: false, loading: () => <div className="h-[60vh] animate-pulse bg-primary/5 dark:bg-neutral-900" /> }
 );
 
 const LandingAccordionItem = dynamic(
@@ -23,7 +23,7 @@ const WhyChooseUsCards = dynamic(
 
 const PricingTableBanquet = dynamic(
   () => import("@/components/ui/pricing-table-banquet"),
-  { ssr: false, loading: () => <div className="h-96 animate-pulse bg-orange-50 dark:bg-neutral-950" /> }
+  { ssr: false, loading: () => <div className="h-96 animate-pulse bg-primary/5 dark:bg-neutral-950" /> }
 );
 
 const FooterRestaurant = dynamic(
@@ -73,7 +73,7 @@ export default function Home() {
       <WhyChooseUsCards />
 
       {/* Pricing Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-orange-50 to-white dark:from-neutral-950 dark:to-background">
+      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-accent to-white dark:from-neutral-950 dark:to-background">
         <PricingTableBanquet
           onSelectPlan={(plan) => {
             setSelectedPlan(plan);
