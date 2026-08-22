@@ -45,10 +45,10 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
           {/* Cột 1 — Đặt Bàn Ngay */}
           <div className="relative">
             <h2 className="mb-4 text-3xl font-bold tracking-tight">
-              Đặt Bàn Ngay
+              Liên Hệ Với Chúng Tôi
             </h2>
             <p className="mb-6 text-muted-foreground">
-              Nhập email để đặt bàn nhanh chóng. Chúng tôi sẽ xác nhận trong vòng 30 phút.
+              Nhập email để có cơ hội kết nối với chúng tôi. Chúng tôi sẽ xác nhận trong vòng 30 phút.
             </p>
             <form className="relative" onSubmit={handleEmailSubmit}>
               <Input
@@ -65,7 +65,7 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
                 className="absolute right-1 top-1 h-8 w-8 rounded-full bg-primary text-primary-foreground transition-transform hover:scale-105"
               >
                 <Send className="h-4 w-4" />
-                <span className="sr-only">Đặt bàn</span>
+                <span className="sr-only">Gửi email</span>
               </Button>
             </form>
             <div className="absolute -right-4 top-0 h-24 w-24 rounded-full bg-primary/10 blur-2xl" />
@@ -85,10 +85,9 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
           <div>
             <h3 className="mb-4 text-lg font-semibold">Liên Hệ</h3>
             <address className="space-y-2 text-sm not-italic text-muted-foreground">
-              <p>📍 Tân Xuân, Hóc Môn, TPHCM</p>
-              <p>📞 0939 088 227</p>
+              <p>📍 8 Nguyễn Gia Trí, Thạnh Mỹ Tây, TPHCM</p>
+              <p>📞 038 671 4512</p>
               <p>✉️ contact@afterhours.vn</p>
-              <p>🕐 Nhận đặt tiệc mọi lúc</p>
             </address>
           </div>
 
@@ -142,13 +141,12 @@ function FooterRestaurant({ onBookingWithEmail }: FooterRestaurantProps) {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="outline" size="icon" className="rounded-full" asChild>
-                      <a href="tel:0939088227">
+                      <a href="tel:0386714512">
                         <Phone className="h-4 w-4" />
                         <span className="sr-only">Gọi điện</span>
                       </a>
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent><p>Gọi đặt tiệc ngay</p></TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>

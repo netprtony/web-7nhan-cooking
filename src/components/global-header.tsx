@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ShoppingCart } from "lucide-react";
-import { useCartContext } from "@/context/cart-context";
-import { useCartUI } from "@/context/cart-ui-context";
+import { Menu, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -19,8 +17,6 @@ const navItems = [
 export default function GlobalHeader() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { totalItems } = useCartContext();
-  const { openCart } = useCartUI();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -73,23 +69,8 @@ export default function GlobalHeader() {
           })}
         </nav>
 
-        {/* Right side: Cart + Mobile Menu */}
+        {/* Right side: Mobile Menu */}
         <div className="flex items-center gap-2">
-          {/* Cart Button */}
-          <button
-            type="button"
-            onClick={openCart}
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            aria-label="Mở giỏ hàng"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">
-                {totalItems > 99 ? "99+" : totalItems}
-              </span>
-            )}
-          </button>
-
           {/* Mobile Menu Button */}
           <button
             type="button"

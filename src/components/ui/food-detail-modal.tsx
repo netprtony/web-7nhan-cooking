@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "motion/react"
-import { X, Plus, Minus, ShoppingCart } from "lucide-react"
+import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useCartContext } from "@/context/cart-context"
 import type { FoodItem } from "@/types/food"
 
 const formatVND = (n: number) =>
@@ -16,14 +15,11 @@ interface FoodDetailModalProps {
 }
 
 export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
-  const { addItem } = useCartContext()
-  const [qty, setQty] = useState(1)
   const [isIngredientsExpanded, setIsIngredientsExpanded] = useState(false)
 
   // Reset states khi mở món mới
   useEffect(() => {
     if (food) {
-      setQty(1)
       setIsIngredientsExpanded(false)
     }
   }, [food?.id])
@@ -46,12 +42,6 @@ export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
     }
     return () => { document.body.style.overflow = "" }
   }, [food])
-
-  const handleAddToCart = () => {
-    if (!food) return
-    addItem(food, qty)
-    onClose()
-  }
 
   return (
     <AnimatePresence>
@@ -204,44 +194,12 @@ export function FoodDetailModal({ food, onClose }: FoodDetailModalProps) {
                 </div>
 
                 {/* Giá */}
-                <p className="text-2xl sm:text-3xl font-bold text-primary">
+                <p className="text-2xl sm:text-3xl font-bold text-primary pb-2 sm:pb-0">
                   {formatVND(food.price)}
                   <span className="text-sm font-normal text-muted-foreground ml-1">
                     / {food.unit ?? "phần"}
                   </span>
                 </p>
-
-                {/* Số lượng + Thêm giỏ */}
-                <div className="flex items-center gap-3 sm:gap-4 pt-2 pb-2 sm:pb-0">
-                  {/* Quantity control */}
-                  <div className="flex items-center gap-2 sm:gap-3 rounded-xl border border-border px-3 py-2">
-                    <button
-                      onClick={() => setQty((q) => Math.max(1, q - 1))}
-                      className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-muted transition-colors"
-                    >
-                      <Minus className="h-3 w-3" />
-                    </button>
-                    <span className="w-8 text-center font-semibold text-foreground">
-                      {qty}
-                    </span>
-                    <button
-                      onClick={() => setQty((q) => q + 1)}
-                      className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-muted transition-colors"
-                    >
-                      <Plus className="h-3 w-3" />
-                    </button>
-                  </div>
-
-                  {/* Add to cart */}
-                  <Button
-                    className="flex-1 gap-2 text-sm sm:text-base"
-                    size="lg"
-                    onClick={handleAddToCart}
-                  >
-                    <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5" />
-                    Đặt món
-                  </Button>
-                </div>
               </div>
             </div>
           </motion.div>

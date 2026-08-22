@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import HeroBanquet from "@/components/sections/hero-banquet";
 import type { BookingPlanInfo } from "@/types/pricing";
 
-// ── Lazy-loaded sections (loaded only when scrolled into view) ──────────────
 const HeroSectionEvent = dynamic(
   () => import("@/components/ui/hero-section-event"),
   { ssr: false, loading: () => <div className="h-[60vh] animate-pulse bg-primary/5 dark:bg-neutral-900" /> }
@@ -36,10 +35,6 @@ const BookingModal = dynamic(
   { ssr: false }
 );
 
-// ============================================
-// MAIN COMPONENT
-// ============================================
-
 export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<BookingPlanInfo | undefined>(undefined);
@@ -50,12 +45,15 @@ export default function Home() {
       {/* Hero Section 1: Scroll Expansion */}
       <HeroBanquet onBookingClick={() => setIsBookingOpen(true)} />
 
-      {/* Hero Section 2: Đặt Tiệc */}
+      {/* Hero Section 2: Giới thiệu dự án */}
       <HeroSectionEvent
         actions={[
           {
-            text: "Đặt Bàn",
-            onClick: () => setIsBookingOpen(true),
+            text: "Xem Gói Đầu Tư",
+            onClick: () => {
+              const el = document.getElementById('investment-section');
+              el?.scrollIntoView({ behavior: 'smooth' });
+            },
             variant: "default",
           },
           {
@@ -69,11 +67,11 @@ export default function Home() {
       {/* Featured Categories: Interactive Image Accordion */}
       <LandingAccordionItem />
 
-      {/* Features Section: Why Choose Us */}
+      {/* Features Section: Why Invest */}
       <WhyChooseUsCards />
 
-      {/* Pricing Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-b from-accent to-white dark:from-neutral-950 dark:to-background">
+      {/* Investment Section */}
+      <section id="investment-section" className="py-12 sm:py-20 px-4 bg-gradient-to-b from-accent to-white dark:from-neutral-950 dark:to-background">
         <PricingTableBanquet
           onSelectPlan={(plan) => {
             setSelectedPlan(plan);
@@ -90,7 +88,7 @@ export default function Home() {
         }}
       />
 
-      {/* Booking Modal */}
+      {/* Contact Modal */}
       <BookingModal
         isOpen={isBookingOpen}
         onClose={() => {

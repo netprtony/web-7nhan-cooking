@@ -5,12 +5,10 @@ import { supabase } from '@/lib/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Search, Plus, Minus, ShoppingCart, ArrowLeft } from 'lucide-react';
+import { Search, ArrowLeft } from 'lucide-react';
 import { GlassButton } from '@/components/ui/glass-button';
 import { LiquidCard, CardContent } from '@/components/ui/liquid-glass-card';
 import { Input } from '@/components/ui/input';
-import { useCartContext } from '@/context/cart-context';
-import { useCartUI } from '@/context/cart-ui-context';
 import { FoodDetailModal } from '@/components/ui/food-detail-modal';
 import type { FoodItem } from '@/types/food';
 
@@ -26,10 +24,6 @@ interface MenuItem {
   food_cost: number;
 }
 
-interface CartItem extends MenuItem {
-  quantity: number;
-}
-
 const categories = [
   { value: 'all', label: 'Tất Cả', color: 'bg-gray-900' },
   { value: 'appetizer', label: 'Món Khai Vị', color: 'bg-primary' },
@@ -43,8 +37,6 @@ export default function MenuPage() {
   const [filteredItems, setFilteredItems] = useState<MenuItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const { items: cart, addItem, removeItem, updateQuantity: cartUpdateQty, totalItems } = useCartContext();
-  const { openCart } = useCartUI();
   const [loading, setLoading] = useState(true);
   const [selectedMenuFood, setSelectedMenuFood] = useState<FoodItem | null>(null);
 
@@ -89,30 +81,6 @@ export default function MenuPage() {
     setFilteredItems(result);
   }, [selectedCategory, searchQuery, menuItems]);
 
-  // Cart helper: convert MenuItem to FoodItem for addItem
-  const addToCart = (item: MenuItem) => {
-    const foodItem: FoodItem = {
-      id: item.id,
-      name: item.title,
-      description: item.description ?? '',
-      price: item.price,
-      image: item.image_url ?? '/assets/default_food.webp',
-      category: item.category,
-    };
-    addItem(foodItem, 1);
-  };
-
-  const removeFromCart = (itemId: string) => {
-    removeItem(itemId);
-  };
-
-  const updateQuantity = (itemId: string, delta: number) => {
-    const existing = cart.find((i) => i.id === itemId);
-    if (existing) {
-      cartUpdateQty(itemId, existing.quantity + delta);
-    }
-  };
-
   const getCategoryLabel = (value: string) => {
     return categories.find((c) => c.value === value)?.label || value;
   };
@@ -133,21 +101,6 @@ export default function MenuPage() {
             </Link>
 
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Thực Đơn</h1>
-
-            {/* Cart Button */}
-            <GlassButton
-              onClick={openCart}
-              size="sm"
-              contentClassName="flex items-center gap-1.5 sm:gap-2"
-            >
-              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="hidden sm:inline">Giỏ hàng</span>
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 sm:w-6 sm:h-6 bg-primary text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </GlassButton>
           </div>
 
           {/* Search Bar */}
@@ -195,7 +148,6 @@ export default function MenuPage() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
             {filteredItems.map((item, index) => {
-              const cartItem = cart.find((i: { id: string }) => i.id === item.id);
               return (
                 <motion.div
                   key={item.id}
@@ -252,36 +204,6 @@ export default function MenuPage() {
                         <p className="text-sm sm:text-base font-bold text-primary">
                           {item.price?.toLocaleString('vi-VN')}₫
                         </p>
-
-                        {cartItem ? (
-                          <div className="flex items-center gap-1.5">
-                            <GlassButton
-                              onClick={() => updateQuantity(item.id, -1)}
-                              size="icon"
-                              className="w-6 h-6"
-                            >
-                              <Minus className="w-3 h-3" />
-                            </GlassButton>
-                            <span className="text-sm font-semibold w-5 text-center">{cartItem.quantity}</span>
-                            <GlassButton
-                              onClick={() => updateQuantity(item.id, 1)}
-                              size="icon"
-                              className="w-6 h-6"
-                            >
-                              <Plus className="w-3 h-3" />
-                            </GlassButton>
-                          </div>
-                        ) : (
-                          <GlassButton
-                            onClick={() => addToCart(item)}
-                            size="sm"
-                            contentClassName="flex items-center gap-0.5 text-xs"
-                            className="h-7 px-2"
-                          >
-                            <Plus className="w-3 h-3" />
-                            Thêm
-                          </GlassButton>
-                        )}
                       </div>
                     </CardContent>
                   </LiquidCard>

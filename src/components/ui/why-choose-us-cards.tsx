@@ -11,29 +11,29 @@ interface Feature {
 
 const features: Feature[] = [
   {
-    title: "Không Gian Sang Trọng",
+    title: "Mô Hình Kinh Doanh Bền Vững",
     description:
-      "Hệ thống phòng tiệc đa dạng từ 50 đến 500 khách, trang trí tinh tế theo từng chủ đề sự kiện riêng biệt.",
+      "Doanh thu ổn định, biên lợi nhuận gộp 35%. Tiềm năng tăng trưởng mạnh mẽ trong ngành F&B.",
     icon: (
-      <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
       </svg>
     ),
   },
   {
-    title: "Thực Đơn Phong Phú",
+    title: "Thương Hiệu Mạnh",
     description:
-      "Hơn 50 món ăn đặc sắc từ ẩm thực Việt Nam và quốc tế, được chế biến bởi đội ngũ đầu bếp 5 sao.",
+      "Nhận diện thương hiệu cao trong phân khúc khách hàng trẻ tuổi và trung lưu. Lượng khách hàng thân thiết lớn.",
     icon: (
       <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-5.22-6.5-5.22-6.5-5.22H1v4c0 1.1.9 2 2 2h14.03v-.78z" />
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
       </svg>
     ),
   },
   {
     title: "Đội Ngũ Chuyên Nghiệp",
     description:
-      "Hơn 200 nhân viên phục vụ được đào tạo bài bản, tận tâm chăm sóc từng chi tiết để buổi tiệc diễn ra hoàn hảo.",
+      "Ban điều hành giàu kinh nghiệm. Đội ngũ vận hành bài bản, quy trình quản lý chất lượng nghiêm ngặt.",
     icon: (
       <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
         <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
@@ -41,32 +41,13 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Giá Cả Minh Bạch",
+    title: "Kế Hoạch Mở Rộng",
     description:
-      "Báo giá rõ ràng, không phát sinh chi phí ẩn. Nhiều gói dịch vụ linh hoạt phù hợp với mọi ngân sách.",
+      "Kế hoạch mở 5 chi nhánh trong 3 năm. Lộ trình phát triển rõ ràng với chiến lược thâm nhập thị trường tối ưu.",
     icon: (
-      <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Đặt Tiệc Dễ Dàng",
-    description:
-      "Đặt bàn online 24/7, xác nhận ngay lập tức. Hỗ trợ tư vấn tận tình qua điện thoại và Zalo.",
-    icon: (
-      <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z" />
-      </svg>
-    ),
-  },
-  {
-    title: "10 Năm Kinh Nghiệm",
-    description:
-      "Hơn 500 buổi tiệc thành công, được tin tưởng bởi hàng nghìn khách hàng và doanh nghiệp trên toàn quốc.",
-    icon: (
-      <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
   },
@@ -175,11 +156,10 @@ export default function WhyChooseUsCards() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
-            Tại Sao Chọn Chúng Tôi?
+            Vì Sao Đầu Tư AFTER HOURS?
           </h2>
           <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Hơn 10 năm kinh nghiệm tổ chức tiệc — chúng tôi cam kết mang đến
-            buổi tiệc hoàn hảo, đáng nhớ cho mọi dịp đặc biệt của bạn.
+            Cơ hội đầu tư hấp dẫn vào chuỗi nhà hàng hiện đại với mô hình đã được kiểm chứng và tiềm năng sinh lời vượt trội.
           </p>
         </div>
 

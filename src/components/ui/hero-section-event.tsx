@@ -49,7 +49,7 @@ const itemVariants = {
 
 // Default props phù hợp với ngữ cảnh đặt tiệc
 const defaultSubtitle =
-  "Trải nghiệm ẩm thực đỉnh cao với thực đơn phong phú, không gian sang trọng và dịch vụ chuyên nghiệp. Đặt bàn ngay hôm nay để có buổi tiệc hoàn hảo.";
+  "AFTER HOURS – Nhà hàng phong cách hiện đại với mô hình kinh doanh đã được chứng minh. Doanh thu tăng trưởng 40% YoY, biên lợi nhuận gộp 35%. Tham gia đồng hành cùng chúng tôi.";
 
 const defaultStats: StatProps[] = [
   {
@@ -91,15 +91,15 @@ const HeroSectionEvent = ({
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+          <div className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl whitespace-pre-line">
             <TextAnimate
               animation="blurInUp"
               by="word"
               as="h1"
               once
-              className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl"
+              className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl whitespace-pre-line"
             >
-              Không gian tiệc đẳng cấp và tinh tế
+              {"Cơ Hội Đầu Tư Vào\nẨm Thực Hiện Đại"}
             </TextAnimate>
           </div>
           <motion.p
