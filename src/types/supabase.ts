@@ -63,6 +63,7 @@ export interface Database {
           excerpt: string | null;
           main_image_url: string | null;
           gallery: string[] | null;
+          images_json: Json | null;
           published_at: string | null;
           author: string;
           category: string | null;
@@ -79,6 +80,7 @@ export interface Database {
           excerpt?: string | null;
           main_image_url?: string | null;
           gallery?: string[] | null;
+          images_json?: Json | null;
           published_at?: string | null;
           author?: string;
           category?: string | null;
@@ -95,6 +97,7 @@ export interface Database {
           excerpt?: string | null;
           main_image_url?: string | null;
           gallery?: string[] | null;
+          images_json?: Json | null;
           published_at?: string | null;
           author?: string;
           category?: string | null;
