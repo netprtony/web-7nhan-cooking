@@ -57,6 +57,32 @@
   - Tiệc Tân Gia
 - Chi tiết bài viết với gallery ảnh
 
+### 🤖 Trợ Lý AI Nhà Đầu Tư & Hệ Thống RAG (Modern RAG Q&A)
+- **Hỏi đáp thông minh thời gian thực**: Giải đáp các thắc mắc về mô hình kinh doanh, tài chính, thực đơn, kế hoạch hoàn vốn và chiến lược mở rộng.
+- **Kiến trúc RAG (Retrieval-Augmented Generation)**:
+  - **Tài liệu nguồn**: Đề án khả thi (`data/AFTER_HOURS_Du_An.docx`) & Hợp đồng đầu tư (`data/hop_dong_dau_tu_after_hours_preview.docx`).
+  - **Document Loader (`loader.ts`)**: Trích xuất text từ `.docx` bằng `mammoth`, chuẩn hóa và lưu cache.
+  - **Recursive Text Splitting (`splitter.ts`)**: Phân tách văn bản ngữ nghĩa (`chunk_size = 500`, `chunk_overlap = 100`) kèm metadata nguồn.
+  - **In-Memory Vector Store (`vectorstore.ts`)**: Thuật toán xếp hạng BM25 tiếng Việt tối ưu + chiến lược Context Reordering hình chữ U (chống hiện tượng *Lost in the Middle*).
+  - **Grounding Rules (`prompt.ts`)**: Chống ảo giác (anti-hallucination), bám sát 100% tài liệu và trích dẫn nguồn minh bạch.
+- **Hỗ trợ đa mô hình AI (OpenRouter API)**:
+  - `nvidia/nemotron-3-ultra-550b-a55b:free` (Free)
+  - `google/gemma-4-31b-it:free` (Free)
+  - `z.ai/glm-4.5-air:free` (Free)
+  - `qwen/qwen-2.5-72b-instruct` (Mặc định / Tối ưu tiếng Việt)
+  - `meta-llama/llama-3.3-70b-instruct`
+  - `anthropic/claude-3.5-sonnet`
+  - Tích hợp Model Selector trên Header chat, tự động lưu vào `localStorage`.
+
+### 📄 Review, Chỉnh Sửa & Tải Hợp Đồng Đầu Tư Trực Tiếp
+- **Bản In Chuẩn Hóa (A4 Legal Document Layout)**: Hiển thị đầy đủ Quốc hiệu, Tiêu ngữ, Thông tin Bên A (Ban Sáng Lập After Hours), Thông tin Bên B (Nhà Đầu Tư), 6 điều khoản hợp tác, Bảng CAPEX 9 hạng mục 2.8 tỷ và Khung ký tên 2 bên.
+- **Điền nhanh thông tin (Quick Form)**: Hỗ trợ chọn nhanh các gói đầu tư (Hạt giống 500Tr, Tăng trưởng 1.5 Tỷ, Chiến lược 2.8 Tỷ, Suất mẫu 400Tr) và tự động đồng bộ vào hợp đồng.
+- **Soạn thảo tự do (Live Editor)**: Cho phép tinh chỉnh từng điều khoản trước khi ký.
+- **Xuất & Tải về tức thì**:
+  - 📥 Xuất file Word chuẩn (`.docx`) bằng thư viện `docx`.
+  - 📄 Tải bản PDF mẫu (`.pdf`).
+- **Thẻ hành động trong Chat**: Tự động gợi ý nút [Xem & Sửa Hợp Đồng], [Tải .DOCX], [Tải .PDF] ngay trong câu trả lời của AI.
+
 ### 📧 Liên Hệ Tư Vấn (Booking Modal)
 - Form tiếp nhận nhu cầu tư vấn với EmailJS integration
 - Các trường thông tin:
@@ -87,6 +113,13 @@
 - **Framer Motion 12** - Animation library
 - **@paper-design/shaders-react** - Shader effects
 - **lucide-react** - Icon library
+
+### AI & RAG Pipeline
+- **OpenRouter API** via **OpenAI SDK** (`openai`) - Kết nối đa mô hình AI (NVIDIA, Google, GLM, Qwen, Claude, Meta)
+- **Mammoth** (`mammoth`) - Đọc và trích xuất dữ liệu thô từ file Word `.docx`
+- **Docx** (`docx`) - Khởi tạo tài liệu và xuất file Word `.docx` chuẩn động
+- **BM25 Vector Search** - In-memory scoring algorithm tối ưu cho tiếng Việt
+- **Server-Sent Events (SSE)** - Streaming response thời gian thực cho chat UI
 
 ### Backend & Database
 - **Supabase** - Backend as a Service (BaaS)
@@ -120,6 +153,9 @@ restaurant-after-hours/
 │
 ├── src/
 │   ├── app/                     # Next.js App Router
+│   │   ├── api/                # Backend API Routes
+│   │   │   ├── chat/route.ts   # RAG Pipeline & OpenRouter Streaming API
+│   │   │   └── contract/route.ts # Contract Template & Docx Export API
 │   │   ├── blog/               # Blog pages
 │   │   │   └── [slug]/        # Dynamic blog post
 │   │   ├── menu/               # Menu page
@@ -134,6 +170,8 @@ restaurant-after-hours/
 │   │   │   ├── scroll-velocity-food.tsx
 │   │   │   └── latest-blog-cards.tsx
 │   │   ├── ui/                 # UI components
+│   │   │   ├── chat-widget.tsx           # Floating AI Chat Widget + Model Selector
+│   │   │   ├── contract-preview-modal.tsx # Contract Review, Live Editor & Quick Form
 │   │   │   ├── animated-footer.tsx
 │   │   │   ├── animated-tab-bar.tsx
 │   │   │   ├── button.tsx
@@ -158,7 +196,7 @@ restaurant-after-hours/
 │   │   │   ├── tooltip.tsx
 │   │   │   └── why-choose-us-cards.tsx
 │   │   ├── examples/           # Example components
-│   │   ├── booking-modal.tsx   # Booking modal
+│   │   ├── booking-modal.tsx   # Investor consultation modal
 │   │   ├── cart-sidebar.tsx    # Cart sidebar
 │   │   ├── global-header.tsx   # Global header
 │   │   └── scroll-expansion-hero.tsx
@@ -170,7 +208,14 @@ restaurant-after-hours/
 │   ├── hooks/                  # Custom hooks
 │   │   └── use-cart.ts         # Cart hook with localStorage
 │   │
-│   ├── lib/                    # Utilities
+│   ├── lib/                    # Utilities & RAG Engine
+│   │   ├── contract/
+│   │   │   └── generator.ts    # Docx Document Generator via 'docx'
+│   │   ├── rag/
+│   │   │   ├── loader.ts       # Document loader & extractor via 'mammoth'
+│   │   │   ├── splitter.ts     # Recursive character text chunking
+│   │   │   ├── vectorstore.ts  # In-memory BM25 similarity & U-shape reordering
+│   │   │   └── prompt.ts       # Investor Relations system prompt & grounding
 │   │   ├── supabase.ts         # Supabase client
 │   │   └── utils.ts            # Utility functions
 │   │
@@ -178,6 +223,11 @@ restaurant-after-hours/
 │       ├── food.ts             # Food item types
 │       ├── pricing.ts          # Pricing types
 │       └── supabase.ts         # Supabase database types
+│
+├── data/                       # Tài liệu nguồn RAG & Hợp đồng mẫu
+│   ├── AFTER_HOURS_Du_An.docx  # Đề án khả thi, chi phí CAPEX 2.8 tỷ
+│   ├── hop_dong_dau_tu_after_hours_preview.docx # Dự thảo Hợp đồng đầu tư
+│   └── hop_dong_dau_tu_after_hours_preview.pdf  # Bản PDF hợp đồng
 │
 ├── supabase/
 │   └── migration.sql           # Database schema
@@ -193,6 +243,74 @@ restaurant-after-hours/
 └── vercel.json                 # Vercel deployment config
 ```
 
+## 🧠 Chi Tiết Kỹ Thuật Hệ Thống RAG (Modern RAG Workflow)
+
+Hệ thống **Trợ Lý AI Nhà Đầu Tư** của AFTER HOURS ứng dụng mô hình **Modern RAG (Retrieval-Augmented Generation)** nhằm trả lời chính xác, minh bạch các câu hỏi của nhà đầu tư mà không xảy ra hiện tượng ảo giác (hallucination):
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       TÀI LIỆU DỰ ÁN & HỢP ĐỒNG GỐC                         │
+│  - data/AFTER_HOURS_Du_An.docx (Đề án khả thi, tài chính, CAPEX 2.8 tỷ)     │
+│  - data/hop_dong_dau_tu_after_hours_preview.docx (Dự thảo Hợp đồng đầu tư)  │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 1. DOCUMENT LOADER & TEXT EXTRACTION (src/lib/rag/loader.ts)                │
+│  - Sử dụng mammoth để trích xuất raw text & HTML                           │
+│  - Chuẩn hóa ký tự xuống dòng, khoảng trắng thừa                           │
+│  - Cơ chế In-memory Caching tránh đọc file lặp lại                         │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 2. RECURSIVE CHUNKING & METADATA TAGGING (src/lib/rag/splitter.ts)          │
+│  - Phân tách theo cấu trúc ngữ nghĩa (đoạn văn -> câu -> từ)                │
+│  - chunk_size = 500 ký tự (tập trung 1 ý tài chính/điều khoản)              │
+│  - chunk_overlap = 100 ký tự (duy trì ngữ cảnh liền mạch)                   │
+│  - Gắn nhãn metadata nguồn: source, chunkIndex                             │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 3. IN-MEMORY VECTOR STORE & BM25 SCORING (src/lib/rag/vectorstore.ts)       │
+│  - Thuật toán BM25 Ranking tiếng Việt tối ưu (TF-IDF + doc length norm)    │
+│  - Zero API Dependency: Không tốn chi phí và độ trễ gọi Embedding ngoài     │
+│  - Context Reordering (U-Shape): Đưa thông tin quan trọng nhất lên đầu và   │
+│    cuối prompt nhằm loại bỏ hiện tượng "Lost in the Middle" cho LLM         │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+       ┌───────────────────────────────┴───────────────────────────────┐
+       ▼                                                               ▼
+  [Nhà đầu tư đặt câu hỏi]                                      [Top-5 Context Chunks]
+       │                                                               │
+       └───────────────────────────────┬───────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 4. STRICT GROUNDING & PROMPT TEMPLATE (src/lib/rag/prompt.ts)               │
+│  - Định vị vai trò Giám đốc Quan hệ Nhà đầu tư (IR Director)                │
+│  - Quy tắc Grounding 100%: Chỉ trả lời dựa trên tài liệu được cung cấp      │
+│  - Bắt buộc trích dẫn nguồn (ví dụ: [Nguồn: AFTER_HOURS_Du_An.docx])        │
+│  - Từ chối lịch sự và cung cấp thông tin liên hệ khi ngoài phạm vi          │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ 5. OPENROUTER MULTI-MODEL STREAMING (src/app/api/chat/route.ts)             │
+│  - Hỗ trợ đa mô hình: NVIDIA Nemotron 550B, Gemma 4, GLM 4.5, Qwen 2.5 72B │
+│  - Phản hồi dạng Server-Sent Events (SSE) theo từng token                   │
+│  - Tích hợp Card xem trước, chỉnh sửa & tải file Word .DOCX / .PDF          │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Các API Endpoints:
+| Endpoint | Method | Chức năng |
+|---|---|---|
+| `/api/chat` | `POST` | Tiếp nhận câu hỏi, truy xuất ngữ cảnh RAG, streaming phản hồi từ OpenRouter |
+| `/api/contract` | `GET` | Lấy dữ liệu mẫu hợp đồng (text, html) hoặc tải file gốc (`?download=raw&type=docx/pdf`) |
+| `/api/contract` | `POST` | Nhận dữ liệu tùy chỉnh của Nhà đầu tư và xuất file Word `.docx` động |
+
 ## 🚀 Bắt Đầu
 
 ### Yêu Cầu Hệ Thống
@@ -200,6 +318,7 @@ restaurant-after-hours/
 - **Node.js**: 20.x trở lên
 - **npm**: 10.x trở lên (hoặc yarn, pnpm, bun)
 - **Supabase Account**: Để cấu hình database và storage
+- **OpenRouter API Key**: Để kích hoạt tính năng Trợ lý AI Q&A
 
 ### 1. Clone Repository
 
@@ -228,6 +347,9 @@ Tạo file `.env.local` trong thư mục root:
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# OpenRouter API (Cho Trợ Lý AI RAG)
+OPENROUTER_API_KEY=your_openrouter_api_key
 
 # EmailJS (cho booking form)
 NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
