@@ -35,6 +35,11 @@ const BookingModal = dynamic(
   { ssr: false }
 );
 
+const ChatWidget = dynamic(
+  () => import("@/components/ui/chat-widget").then((m) => ({ default: m.ChatWidget })),
+  { ssr: false }
+);
+
 export default function Home() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<BookingPlanInfo | undefined>(undefined);
@@ -100,6 +105,9 @@ export default function Home() {
         plan={selectedPlan}
         prefillEmail={prefillEmail}
       />
+
+      {/* AI Chat Widget */}
+      <ChatWidget />
     </div>
   );
 }

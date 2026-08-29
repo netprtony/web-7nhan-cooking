@@ -49,7 +49,21 @@ const ScrollExpandMedia = ({
   }, [mediaType]);
 
   useEffect(() => {
+    const isInteractiveScrollTarget = (target: EventTarget | null): boolean => {
+      if (!target || !(target instanceof HTMLElement)) return false;
+      return Boolean(
+        target.closest(
+          '.overflow-y-auto, .overflow-auto, [role="dialog"], textarea, input, select, [data-scroll-container], .chat-messages-container, [data-prevent-hero-scroll]'
+        )
+      );
+    };
+
     const handleWheel = (e: WheelEvent) => {
+      // Don't intercept scroll if user is scrolling inside a modal, chat widget, or scrollable area
+      if (isInteractiveScrollTarget(e.target)) {
+        return;
+      }
+
       if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
         setMediaFullyExpanded(false);
         e.preventDefault();
@@ -72,11 +86,13 @@ const ScrollExpandMedia = ({
     };
 
     const handleTouchStart = (e: TouchEvent) => {
+      if (isInteractiveScrollTarget(e.target)) return;
       setTouchStartY(e.touches[0].clientY);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       if (!touchStartY) return;
+      if (isInteractiveScrollTarget(e.target)) return;
 
       const touchY = e.touches[0].clientY;
       const deltaY = touchStartY - touchY;
@@ -111,7 +127,8 @@ const ScrollExpandMedia = ({
     };
 
     const handleScroll = (): void => {
-      if (!mediaFullyExpanded) {
+      const hasOpenModal = document.querySelector('[role="dialog"], .fixed.inset-0.z-\\[110\\]');
+      if (!mediaFullyExpanded && !hasOpenModal && window.scrollY > 0) {
         window.scrollTo(0, 0);
       }
     };
