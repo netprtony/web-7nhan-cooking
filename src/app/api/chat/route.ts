@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const {
       message,
       history = [],
-      model = 'qwen/qwen-2.5-72b-instruct',
+      model = 'nvidia/nemotron-3-ultra-550b-a55b:free',
     } = body as {
       message: string;
       history?: ChatMessage[];
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
     messages.push({ role: 'user', content: userPrompt });
 
     // Gọi OpenRouter API với model được chọn
-    const selectedModel = model.trim() || 'qwen/qwen-2.5-72b-instruct';
+    const selectedModel = model.trim() || 'nvidia/nemotron-3-ultra-550b-a55b:free';
 
     const completion = await openai.chat.completions.create({
       model: selectedModel,

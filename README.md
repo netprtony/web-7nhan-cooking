@@ -65,13 +65,12 @@
   - **Recursive Text Splitting (`splitter.ts`)**: Phân tách văn bản ngữ nghĩa (`chunk_size = 500`, `chunk_overlap = 100`) kèm metadata nguồn.
   - **In-Memory Vector Store (`vectorstore.ts`)**: Thuật toán xếp hạng BM25 tiếng Việt tối ưu + chiến lược Context Reordering hình chữ U (chống hiện tượng *Lost in the Middle*).
   - **Grounding Rules (`prompt.ts`)**: Chống ảo giác (anti-hallucination), bám sát 100% tài liệu và trích dẫn nguồn minh bạch.
-- **Hỗ trợ đa mô hình AI (OpenRouter API)**:
-  - `nvidia/nemotron-3-ultra-550b-a55b:free` (Free)
-  - `google/gemma-4-31b-it:free` (Free)
-  - `z.ai/glm-4.5-air:free` (Free)
-  - `qwen/qwen-2.5-72b-instruct` (Mặc định / Tối ưu tiếng Việt)
-  - `meta-llama/llama-3.3-70b-instruct`
-  - `anthropic/claude-3.5-sonnet`
+- **Hỗ trợ các mô hình AI Miễn Phí (OpenRouter Free Models)**:
+  - `nvidia/nemotron-3-ultra-550b-a55b:free` (NVIDIA Nemotron 3 Ultra 550B - Mặc định)
+  - `google/gemma-4-31b-it:free` (Google Gemma 4 31B)
+  - `z.ai/glm-4.5-air:free` (GLM 4.5 Air)
+  - `google/gemma-4-26b-a4b-it:free` (Google Gemma 4 26B A4B)
+  - `nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free` (NVIDIA Nemotron 3 Nano Omni 30B Reasoning)
   - Tích hợp Model Selector trên Header chat, tự động lưu vào `localStorage`.
 
 ### 📄 Review, Chỉnh Sửa & Tải Hợp Đồng Đầu Tư Trực Tiếp
@@ -298,7 +297,7 @@ Hệ thống **Trợ Lý AI Nhà Đầu Tư** của AFTER HOURS ứng dụng mô
                                        ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ 5. OPENROUTER MULTI-MODEL STREAMING (src/app/api/chat/route.ts)             │
-│  - Hỗ trợ đa mô hình: NVIDIA Nemotron 550B, Gemma 4, GLM 4.5, Qwen 2.5 72B │
+│  - Hỗ trợ các model Free: Nemotron 550B, Gemma 4 31B, GLM 4.5, Gemma 4 26B  │
 │  - Phản hồi dạng Server-Sent Events (SSE) theo từng token                   │
 │  - Tích hợp Card xem trước, chỉnh sửa & tải file Word .DOCX / .PDF          │
 └─────────────────────────────────────────────────────────────────────────────┘

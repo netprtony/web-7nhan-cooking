@@ -53,20 +53,16 @@ export const AVAILABLE_MODELS: AIModelOption[] = [
     provider: "Z.AI",
   },
   {
-    id: "qwen/qwen-2.5-72b-instruct",
-    name: "Qwen 2.5 72B Instruct",
-    badge: "CHUẨN",
-    provider: "Alibaba",
+    id: "google/gemma-4-26b-a4b-it:free",
+    name: "Google Gemma 4 26B A4B",
+    badge: "FREE",
+    provider: "Google",
   },
   {
-    id: "meta-llama/llama-3.3-70b-instruct",
-    name: "Meta Llama 3.3 70B",
-    provider: "Meta",
-  },
-  {
-    id: "anthropic/claude-3.5-sonnet",
-    name: "Claude 3.5 Sonnet",
-    provider: "Anthropic",
+    id: "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    name: "NVIDIA Nemotron 3 Nano Omni 30B",
+    badge: "FREE",
+    provider: "NVIDIA",
   },
 ];
 
