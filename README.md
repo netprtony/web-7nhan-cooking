@@ -1,4 +1,4 @@
-# 🍽️ Dịch Vụ Nấu Ăn Bảy Nhân - Website Đặt Tiệc Tại Gia
+# 🌃 Restaurant After Hours - Website Giới Thiệu Nhà Ăn Cho Chủ Đầu Tư
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.3-blue)](https://reactjs.org/)
@@ -8,23 +8,23 @@
 
 ## 📖 Giới Thiệu
 
-**Bảy Nhân** là website dịch vụ nấu ăn chuyên nghiệp, chuyên tổ chức các loại tiệc tại gia với hơn 20 năm kinh nghiệm. Website cung cấp giải pháp đặt tiệc toàn diện với các tính năng hiện đại:
+**Restaurant After Hours** là website giới thiệu mô hình nhà ăn phục vụ ban đêm dành cho chủ đầu tư. Dự án tập trung vào việc trình bày năng lực vận hành, chất lượng thực đơn, và tiềm năng phát triển theo định hướng kinh doanh:
 
-- 🎉 **Đặt tiệc tại gia**: Cưới hỏi, sinh nhật, liên hoan, hội nghị
-- 📋 **Thực đơn đa dạng**: Hơn 100 món ăn từ khai vị đến tráng miệng
-- 🛒 **Giỏ hàng thông minh**: Lưu trữ tự động, không mất dữ liệu khi reload
-- 📱 **Responsive Design**: Tối ưu cho mọi thiết bị
-- 🌙 **Dark Mode**: Hỗ trợ chế độ sáng/tối
-- ⚡ **Performance**: Lazy loading, code splitting, tối ưu hình ảnh
+- 🏢 **Định vị đầu tư rõ ràng**: Trình bày giá trị mô hình, điểm khác biệt và lợi thế vận hành
+- 📋 **Thực đơn trực quan**: Danh mục món ăn theo nhóm, dễ đánh giá quy mô dịch vụ
+- 📊 **Nội dung truyền thông dự án**: Blog/hoạt động để thể hiện năng lực triển khai thực tế
+- 📱 **Responsive Design**: Tối ưu hiển thị trên mobile, tablet và desktop
+- 🌙 **Dark Mode**: Tăng trải nghiệm trình chiếu và demo buổi tối
+- ⚡ **Performance**: Tối ưu tốc độ tải trang cho demo và giới thiệu đối tác
 
 ## ✨ Tính Năng Chính
 
 ### 🏠 Trang Chủ (Landing Page)
-- **Hero Section**: Scroll expansion với hiệu ứng parallax
-- **Thực đơn cuộn tự động**: 2 hàng món ăn cuộn ngược chiều với `scroll-based-velocity`
-- **Why Choose Us**: Cards giới thiệu điểm mạnh của dịch vụ
-- **Bảng giá tiệc**: 3 gói tiệc khác nhau (Tiệc Tiết Kiệm, Tiệc Chuẩn, Tiệc VIP)
-- **Footer**: Form đăng ký nhận thông tin, liên hệ nhanh
+- **Hero Section**: Truyền tải thông điệp thương hiệu và tầm nhìn dự án
+- **Thực đơn cuộn tự động**: Trình bày năng lực món ăn bằng hiệu ứng chuyển động
+- **Why Choose Us**: Cards nhấn mạnh ưu điểm mô hình dành cho chủ đầu tư
+- **Bảng gói dịch vụ**: Các phương án triển khai theo quy mô khác nhau
+- **Footer**: Khối liên hệ nhanh phục vụ kết nối hợp tác
 
 ### 🍲 Trang Thực Đơn (`/menu`)
 - Danh sách món ăn phân loại theo danh mục
@@ -47,7 +47,7 @@
 - **SSR-safe**: Không lỗi hydration mismatch
 
 ### 📝 Blog / Ký Sự Hoạt Động (`/blog`)
-- Hiển thị các bài viết về tiệc đã tổ chức
+- Hiển thị các bài viết về hoạt động vận hành và case study
 - Phân loại theo:
   - Tiệc Cưới
   - Tiệc Sinh Nhật
@@ -57,8 +57,8 @@
   - Tiệc Tân Gia
 - Chi tiết bài viết với gallery ảnh
 
-### 📧 Đặt Tiệc (Booking Modal)
-- Form đặt tiệc với EmailJS integration
+### 📧 Liên Hệ Tư Vấn (Booking Modal)
+- Form tiếp nhận nhu cầu tư vấn với EmailJS integration
 - Các trường thông tin:
   - Tên khách hàng
     - Email
@@ -109,7 +109,7 @@
 ## 📁 Cấu Trúc Dự Án
 
 ```
-web-7nhan-cooking/
+restaurant-after-hours/
 ├── public/                      # Static assets
 │   ├── assets/
 │   │   ├── bgImageSrc/         # Background images
@@ -204,8 +204,8 @@ web-7nhan-cooking/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/netprtony/web-7nhan-cooking.git
-cd web-7nhan-cooking
+git clone https://github.com/netprtony/restaurant-after-hours.git
+cd restaurant-after-hours
 ```
 
 ### 2. Cài Đặt Dependencies
@@ -301,7 +301,7 @@ npm run start
 
 ### Deploy lên Vercel (Khuyên dùng)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/netprtony/web-7nhan-cooking)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/netprtony/restaurant-after-hours)
 
 **Hướng dẫn deploy thủ công:**
 
@@ -502,18 +502,14 @@ Contributions are welcome! Nếu bạn muốn đóng góp:
 
 ## 📝 License
 
-Dự án này là private repository của Dịch Vụ Nấu Ăn Bảy Nhân. Vui lòng không sao chép hoặc sử dụng mà không có sự cho phép.
+Dự án đang được phát triển nội bộ. Vui lòng chỉ sử dụng, sao chép hoặc phân phối khi có sự cho phép từ chủ sở hữu repository.
 
 ## 📞 Liên Hệ
 
-**Dịch Vụ Nấu Ăn Bảy Nhân**
-- 📧 Email: contact@7nhan.com (hoặc email thực tế)
-- 📱 Hotline: 0901 234 567 (hoặc số thực tế)
-- 🌐 Website: [7nhan.com](https://7nhan.com)
-- 📍 Địa chỉ: TP. Hồ Chí Minh, Việt Nam
+Vui lòng mở issue hoặc liên hệ trực tiếp chủ repository để trao đổi về hợp tác, triển khai hoặc đầu tư.
 
 ---
 
-**Made with ❤️ by Dịch Vụ Nấu Ăn Bảy Nhân**
+**Made with ❤️ for Restaurant After Hours**
 
-*Cam kết thực phẩm tươi sống, giá cả hợp lý, phục vụ tận tâm - Hơn 20 năm kinh nghiệm tổ chức tiệc tại gia*
+*Nền tảng giới thiệu mô hình nhà ăn phục vụ sau giờ cao điểm dành cho chủ đầu tư.*
